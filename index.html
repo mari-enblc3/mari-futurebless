@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Jeong A Mari Lee</title>
+  <meta name="description" content="Jeong A Mari Lee — Creative Director, Future Bless Studio®, Seoul">
+  <style>
+    @font-face {
+      font-family: "Walter Neue";
+      src: url("WalterNeueVariable.woff2") format("woff2-variations");
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --muted: #777777;
+      --border: #e8e8e8;
+      --border-light: #f0f0f0;
+      --font: "Walter Neue", -apple-system, "system-ui", Inter, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      --size-xs: 11px;
+      --size-sm: 12.5px;
+      --size-base: 14px;
+      --size-md: 15px;
+    }
+
+    html {
+      font-size: var(--size-base);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.4;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    sup {
+      font-size: 9px;
+      vertical-align: super;
+      line-height: 0;
+    }
+
+    /* ─── HEADER ─────────────────────────────── */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 16px 16px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .site-header-name {
+      font-size: var(--size-base);
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .site-header-updated {
+      font-size: var(--size-xs);
+      color: var(--muted);
+      letter-spacing: 0.01em;
+    }
+
+    /* ─── GENERIC SECTION ───────────────────── */
+    .block {
+      padding: 18px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .block-label {
+      font-size: var(--size-xs);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    /* ─── STUDIO INTRO ──────────────────────── */
+    .studio-name {
+      font-size: var(--size-md);
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+
+    .studio-links {
+      margin-bottom: 16px;
+    }
+
+    .studio-links a {
+      display: block;
+      font-size: var(--size-sm);
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .studio-about {
+      font-size: var(--size-base);
+      line-height: 1.5;
+      color: var(--fg);
+    }
+
+    .studio-about p + p {
+      margin-top: 8px;
+    }
+
+    /* ─── SERVICES ──────────────────────────── */
+    .services {
+      display: grid;
+      gap: 14px;
+    }
+
+    .service-category-title {
+      font-size: var(--size-xs);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 4px;
+    }
+
+    .service-list {
+      list-style: none;
+      counter-reset: svc;
+    }
+
+    .service-list li {
+      counter-increment: svc;
+      font-size: var(--size-base);
+      padding: 1px 0;
+      display: flex;
+      gap: 6px;
+      line-height: 1.4;
+    }
+
+    .service-list li::before {
+      content: counter(svc) ".";
+      color: var(--muted);
+      font-size: var(--size-xs);
+      min-width: 14px;
+      padding-top: 2px;
+    }
+
+    /* ─── INFO / CV ROWS ────────────────────── */
+    .cv-row {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 0 14px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: var(--size-base);
+      line-height: 1.4;
+    }
+
+    .cv-row:last-child {
+      border-bottom: none;
+    }
+
+    .cv-row-label {
+      font-size: var(--size-xs);
+      color: var(--muted);
+      padding-top: 2px;
+      letter-spacing: 0.01em;
+    }
+
+    .cv-row-value a {
+      color: var(--muted);
+    }
+
+    .cv-row-value a:hover {
+      color: var(--fg);
+      text-decoration: underline;
+    }
+
+    /* ─── CLIENTS ───────────────────────────── */
+    .client-list {
+      font-size: var(--size-base);
+      line-height: 1.7;
+    }
+
+    /* ─── WORKS ─────────────────────────────── */
+    .year-group {
+      margin-bottom: 22px;
+    }
+
+    .year-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .year-heading {
+      font-size: var(--size-xs);
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+    .work-entry {
+      font-size: 13px;
+      padding: 4px 0;
+      line-height: 1.35;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--fg);
+    }
+
+    .work-entry:last-child {
+      border-bottom: none;
+    }
+
+    .work-entry.is-employment {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ─── FEATURE ───────────────────────────── */
+    .feature-group {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .feature-group:last-child {
+      border-bottom: none;
+    }
+
+    .feature-category {
+      font-size: var(--size-base);
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+
+    .feature-year {
+      font-size: var(--size-xs);
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+    }
+
+    .feature-links {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .feature-links a {
+      font-size: var(--size-base);
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .feature-links a:hover {
+      color: var(--muted);
+    }
+
+    /* ─── FOOTER ────────────────────────────── */
+    .site-footer {
+      padding: 18px 16px;
+      font-size: var(--size-xs);
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <span class="site-header-name">Jeong A Mari Lee</span>
+    <span class="site-header-updated">Updated May 2026</span>
+  </header>
+
+  <!-- ── STUDIO ── -->
+  <section class="block">
+    <p class="studio-name">Future Bless Studio<sup>®</sup></p>
+    <div class="studio-links">
+      <a href="https://www.instagram.com/futurebless.studio/" target="_blank" rel="noopener">www.instagram.com/futurebless.studio</a>
+    </div>
+    <div class="studio-about">
+      <p>Future Bless Studio is a visual and strategic consulting studio that delivers refined, curated quality across every touchpoint.</p>
+      <p>We build brand foundations that are clear, scalable, and built to last. From the first idea to full execution, we design each step with intention.</p>
+      <p>Our purpose is simple: to create end-to-end branding that works, grows, and resonates.</p>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ── -->
+  <section class="block">
+    <div class="services">
+
+      <div class="service-category">
+        <p class="service-category-title">Branding</p>
+        <ul class="service-list">
+          <li>Brand eXperience Design</li>
+          <li>Product Design</li>
+          <li>Creative Directing</li>
+          <li>Art Directing</li>
+          <li>Space Design</li>
+          <li>Editorial &amp; Photography</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <p class="service-category-title">Strategy</p>
+        <ul class="service-list">
+          <li>Brand Strategy</li>
+          <li>Product Strategy</li>
+          <li>Deck Design</li>
+        </ul>
+      </div>
+
+      <div class="service-category">
+        <p class="service-category-title">Marketing</p>
+        <ul class="service-list">
+          <li>BTL</li>
+          <li>PR</li>
+          <li>Social Media Management</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── INFO ── -->
+  <section class="block">
+    <p class="block-label">Info</p>
+
+    <div class="cv-row">
+      <span class="cv-row-label">Name</span>
+      <span class="cv-row-value">Lee Jeong A</span>
+    </div>
+    <div class="cv-row">
+      <span class="cv-row-label">Role</span>
+      <span class="cv-row-value">Creative Director<br>Future Bless Studio<sup>®</sup></span>
+    </div>
+    <div class="cv-row">
+      <span class="cv-row-label">Location</span>
+      <span class="cv-row-value">Seoul, Korea (+82)</span>
+    </div>
+    <div class="cv-row">
+      <span class="cv-row-label">Contact</span>
+      <span class="cv-row-value">
+        <a href="mailto:mari@futurebless.org">mari@futurebless.org</a><br>
+        <a href="https://www.instagram.com/enblc3/" target="_blank" rel="noopener">www.instagram.com/enblc3</a>
+      </span>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section class="block">
+    <p class="block-label">Education</p>
+    <div class="cv-row">
+      <span class="cv-row-label">2018–2021</span>
+      <span class="cv-row-value">Kaywon University of Art &amp; Design<br>Intermedia Art</span>
+    </div>
+  </section>
+
+  <!-- ── CLIENTS ── -->
+  <section class="block">
+    <p class="block-label">Client</p>
+    <div class="client-list">
+      Beauty of Joseon (조선미녀)
+    </div>
+  </section>
+
+  <!-- ── WORKS ── -->
+  <section class="block">
+    <p class="block-label">Works</p>
+
+    <div class="year-group">
+      <p class="year-heading">2026</p>
+      <p class="work-entry">WIP</p>
+      <p class="work-entry">Cosmetic Brand eXperience Design, Lotonin</p>
+      <p class="work-entry">Cosmetic Brand eXperience Design, NDA</p>
+      <p class="work-entry">05 SNS Content &amp; Key Visual Design, NEOTERIA</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2025</p>
+      <p class="work-entry">01 Brand Identity Design, LTM</p>
+      <p class="work-entry">03 SG [Overtime] Art Direction &amp; Design, MUXANT</p>
+      <p class="work-entry">03 SG [Have A Good Night] Art Direction &amp; Design, Chill The World</p>
+      <p class="work-entry">03 &lsquo;Flower Seriese&rsquo; PM, LEEJAE, MOHO</p>
+      <p class="work-entry">06 EP [sensE] Packshot Design, Davin, CTYL</p>
+      <p class="work-entry">06 Dr.Shy Brand eXperience Design, Treeside (in-house)</p>
+      <p class="work-entry">08 Application Landing Page, Mockup Page Design, Secondhand Shop Brand (NDA)</p>
+      <p class="work-entry">09 Seong-su Pop-up Store Project PM &amp; Creative Direction, Treed, Treeside (in-house)</p>
+      <p class="work-entry">10 &lsquo;GOODBYE YONGSAN&rsquo; Project, PM &amp; Art Direction &amp; Arrange &amp; Design, Frankly Sleeping</p>
+      <p class="work-entry">11 SNS Greed Planning &amp; Contents Design, Beauty of Joseon (조선미녀), Goodai Global</p>
+      <p class="work-entry">12 Art Direction &amp; PM &amp; Arrange, AKLYPHS</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2024</p>
+      <p class="work-entry">01 1st Album [How Deep Is Your Love] Creative Direction &amp; A to Z, dress, HIGHLINE Entertainment</p>
+      <p class="work-entry">02 DS [Stay] Promotion Contents Design, Eunwol</p>
+      <p class="work-entry">02 Brand eXperience Design (Web, etc.), 455FRIDAY</p>
+      <p class="work-entry">02 6.0 Packshot Detail, POST ARCHIVE FACTION</p>
+      <p class="work-entry is-employment">&rarr; Treeside: Designer (Apr. &ndash; Dec. 2025)</p>
+      <p class="work-entry">05 EP [All The Way] Promotion Contents / Artwork / CD Design, K.WILL, STARSHIP Entertainment</p>
+      <p class="work-entry">05 SG [200] Creative Direction Support, MARK of NCT, SM Entertainment</p>
+      <p class="work-entry">06 Treed Brand eXperience Design, Treeside (in-house)</p>
+      <p class="work-entry">11 Brand eXperience Design / SNS Guide, Modern Promenader</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2023</p>
+      <p class="work-entry">01 Brand eXperience Design (Web / etc.), IMSOOBIN GALLERY</p>
+      <p class="work-entry">01 Brand eXperience Design (Web), Stellar gallery</p>
+      <p class="work-entry">03 DS [dead or alive] Creative Direction &amp; Styling, ron, Indigo Music</p>
+      <p class="work-entry">03 Brand eXperience Design, snct studio</p>
+      <p class="work-entry">03 EP [DELIGHT] CD Illustration, CSR, POPMUSIC</p>
+      <p class="work-entry">07 DS [There, there] A&amp;R &amp; Marketing &amp; Creative Direction &amp; Styling, jeebanoff, goodtomeetu</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2022</p>
+      <p class="work-entry">03 Commercial Graphic Design, duh Cosmetic</p>
+      <p class="work-entry">03 EP [Lost In Blue] &lsquo;OHD&rsquo; Title Design / Live clip credit design, COE</p>
+      <p class="work-entry">04 &lsquo;Get Ya!&rsquo; Live clip Logo / Teaser Design, JUNNY, MAUVE Company</p>
+      <p class="work-entry">04 [HUMAN, the album] Scrap Artwork, Untell</p>
+      <p class="work-entry is-employment">&rarr; Vision Agency by Visla: Team Member (Apr. &ndash; Jun.)</p>
+      <p class="work-entry">04&ndash;06 &lsquo;Maker&rsquo;s Mark Dok-ju Live&rsquo; Popup bar, Vision Agency by Visla Magazine</p>
+      <p class="work-entry">06 Brand Identity Design, default</p>
+      <p class="work-entry">07 Brand Identity Design, TOO MUCH</p>
+      <p class="work-entry">07 CI Design, (NDA) Entertainment</p>
+      <p class="work-entry">07 Brand Identity Design, Kozel n Ants</p>
+      <p class="work-entry is-employment">&rarr; Mine Field Entertainment: A&amp;R (Jul. &ndash; Sep.)</p>
+      <p class="work-entry">07 EP [Basic Construction] Track List Design &amp; Marketing, default</p>
+      <p class="work-entry">08 EP [blanc] &lsquo;Not About You&rsquo; M/V Concept Pre-Planning, JUNNY</p>
+      <p class="work-entry">08 DS [Basic Construction Remixed] Track List Design &amp; SNS Branding, default</p>
+      <p class="work-entry">09 &ldquo;DOUBLE TROUBLE&rdquo; Party Planning &amp; Project Managing &amp; Arrangement &amp; Design &amp; Marketing, TOO MUCH</p>
+      <p class="work-entry">09 Banner Design (IG/IGS), ZICO, KOZ Entertainment</p>
+      <p class="work-entry is-employment">&rarr; Indigo Music &amp; Just Music Entertainment: A&amp;R (Oct. &ndash; Dec.)</p>
+      <p class="work-entry">10 &ldquo;Swing by&rdquo; Party Poster Design, Swings, TOO MUCH</p>
+      <p class="work-entry">10 EP [SILLY : Episode 1] Album Cover / Track List Design, Silly Silky</p>
+      <p class="work-entry">10 EP [SILKY : Episode 2] Album Cover / Track List Design, Silly Silky</p>
+      <p class="work-entry">11 DS [Perfect Stranger] Album Cover Design, INJAE, Mine Field</p>
+      <p class="work-entry">10&ndash;12 4th [Time Machine] Release / M/V / Concert (Seoul, Busan) / CD, A&amp;R &amp; Marketing &amp; Design, Han Yo Han, Just Music</p>
+      <p class="work-entry">11 Commercial Video Graphics, Eider K2</p>
+      <p class="work-entry">12 SNS Design &amp; Marketing, Frankly Sleeping</p>
+      <p class="work-entry">12 1st Global EP [X] Promotion Design, Vapo, Mine Field</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2021</p>
+      <p class="work-entry">01 &lsquo;Unboxing&rsquo;, Exhibition design, Practice Collective</p>
+      <p class="work-entry">12 &lsquo;Bird saver&rsquo;s Verse&rsquo;, Exhibition Design &amp; Marketing, Coconuthuge Collective</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2020</p>
+      <p class="work-entry">05&ndash;12 &lsquo;2020 Intermedia Art Degree Show&rsquo; Identity design, Kaywon Art &amp; Design Univ., with Min Dong-in</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2019</p>
+      <p class="work-entry">&lsquo;CJ Group global web UX/UI Reorganization Report&rsquo; Internship, IXI</p>
+    </div>
+
+    <div class="year-group">
+      <p class="year-heading">2018</p>
+      <p class="work-entry">01 &lsquo;La Creature&rsquo;, Cinema Poster design</p>
+      <p class="work-entry">09 &lsquo;Regular&rsquo; M/V Art team, NCT 127, SM Entertainment</p>
+    </div>
+
+  </section>
+
+  <!-- ── FEATURE ── -->
+  <section class="block">
+    <p class="block-label">Feature</p>
+
+    <div class="feature-group">
+      <p class="feature-year">2026</p>
+      <div class="feature-links">
+        <a href="https://www.instagram.com/p/DVagSiXAdct/" target="_blank" rel="noopener">glowup Magazine</a>
+        <a href="https://www.instagram.com/p/DVawusOE374/" target="_blank" rel="noopener">Curation Club</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    &copy; Jeong A Mari Lee. All Rights Reserved.
+  </footer>
+
+</body>
+</html>
