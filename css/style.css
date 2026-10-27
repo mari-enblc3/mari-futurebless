@@ -331,6 +331,11 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .gallery .tile__media { border-radius: 14px; clip-path: inset(0 0 0 0 round 14px); }
 .gallery .wide { grid-column: span 2; }
 .gallery .solo { grid-column: 1 / -1; justify-self: center; width: calc(50% - 7px); }
+/* 무드보드(벤토): 열마다 비율 그대로 쌓음, 짝수 열은 스크롤에 어긋나게 흐르므로 아래 캡션과 여유 */
+.board { display: flex; align-items: flex-start; gap: 14px; padding: 0 var(--pad); }
+.board__col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.board .tile__media { border-radius: 14px; clip-path: inset(0 0 0 0 round 14px); }
+.board + .proj__cap { padding-top: 84px; }
 .soon { padding: 10vh var(--pad); font-size: clamp(28px, 3vw, 44px); letter-spacing: -0.03em; color: var(--muted); }
 /* 다음 프로젝트: 제목은 왼쪽, 미리보기 이미지는 오른쪽 자기 칸에 (겹치거나 잘리지 않게) */
 .next { position: relative; display: grid; grid-template-columns: 1fr auto; column-gap: var(--pad); align-items: end; margin-top: 18vh; padding: 14px var(--pad) var(--pad); border-top: 1px solid var(--line); }

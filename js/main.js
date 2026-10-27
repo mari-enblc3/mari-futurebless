@@ -104,6 +104,8 @@
     if (open >= 0) cls[open] = "solo";
     return `<section class="gallery">${v.map((m, k) => `<div class="tile__media ${cls[k]}" style="--ar:${ar(m)}">${media(m)}</div>`).join("")}</section>`;
   }
+  // 무드보드: 작은 원본 이미지를 비율 그대로 벤토 보드에 (열 배치는 board()가 화면 단계별로)
+  const boardGroup = (v) => `<section class="board">${v.map((m) => `<div class="tile__media" style="--ar:${ar(m)}">${media(m)}</div>`).join("")}</section>`;
   const paras = (t) => t.split("\n").filter(Boolean).map((l) => `<p>${esc(l)}</p>`).join("");
 
   function yearBlock([year, lines]) {
@@ -221,8 +223,8 @@
         ${intro ? `<div class="proj__intro" data-intro>${paras(intro)}</div>` : ""}
       </section>
       <figure class="proj__hero"><div class="proj__hero-in" style="--ar:${ar(p.cover)}"><img src="${src(p.cover, 2400)}" alt="${esc(p.title)}" style="view-transition-name:hero"></div></figure>
-      ${body.map(([t, v]) => t === "g"
-        ? galleryGroup(v)
+      ${body.map(([t, v, kind]) => t === "g"
+        ? (kind === "board" ? boardGroup(v) : galleryGroup(v))
         : `<div class="proj__cap">${paras(v)}</div>`).join("")}
       ${p.wip ? `<p class="soon">Work in progress.</p>` : ""}
       <a class="next" href="project.html?p=${next.slug}" data-cursor="view" data-cursor-label="Next">
@@ -748,6 +750,37 @@
     gsap.fromTo(words, { opacity: 0.12 }, { opacity: 1, stagger: 0.1, ease: "none", scrollTrigger: { trigger: el, start: "top 80%", end: "bottom 45%", scrub: true } });
   }
 
+  // 무드보드 열 배치: 원래 순서대로 가장 짧은 열에 쌓음 (모바일 2 / 768~ 3 / 1200~ 4 / 1800~ 5열, 카드 폭 ~320px로 원본 화질 유지).
+  // 모션이 켜져 있으면 짝수 번째 열이 스크롤에 살짝 어긋나게 흐름
+  function board() {
+    const boards = $$(".board");
+    if (!boards.length) return;
+    const qs = ["(min-width: 1800px)", "(min-width: 1200px)", "(min-width: 768px)"].map((q) => matchMedia(q));
+    let tweens = [];
+    const layout = () => {
+      const n = [5, 4, 3].find((_, k) => qs[k].matches) || 2;
+      tweens.forEach((t) => { t.scrollTrigger?.kill(); t.kill(); });
+      tweens = [];
+      boards.forEach((b) => {
+        b._tiles ||= [...b.children];
+        const cols = Array.from({ length: n }, () => Object.assign(document.createElement("div"), { className: "board__col" }));
+        const h = cols.map(() => 0);
+        b._tiles.forEach((t) => {
+          const c = h.indexOf(Math.min(...h));
+          cols[c].append(t);
+          h[c] += 1 / parseFloat(t.style.getPropertyValue("--ar")) + 0.05;
+        });
+        b.replaceChildren(...cols);
+        if (motion) cols.forEach((c, k) => k % 2 && tweens.push(gsap.fromTo(c, { y: 70 }, {
+          y: -70, ease: "none", scrollTrigger: { trigger: b, start: "top bottom", end: "bottom top", scrub: true },
+        })));
+      });
+      if (motion) ScrollTrigger.refresh();
+    };
+    layout();
+    qs.forEach((q) => q.addEventListener("change", layout));
+  }
+
   function footer() {
     gsap.from(".cta", { y: 40, opacity: 0, filter: "blur(14px)", duration: 1.4, ease: "expo.out", clearProps: "transform,opacity,filter", scrollTrigger: { trigger: ".ftr", start: "top 70%", once: true } });
   }
@@ -771,7 +804,7 @@
       { paddingLeft: 0, paddingRight: 0, ease: "none", scrollTrigger: { trigger: ".proj__hero", start: "top 60%", end: "top top", scrub: true } });
     gsap.to(".proj__hero-in", { borderRadius: 0, ease: "none", scrollTrigger: { trigger: ".proj__hero", start: "top 60%", end: "top top", scrub: true } });
     gsap.to(".proj__hero img", { yPercent: 6, ease: "none", scrollTrigger: { trigger: ".proj__hero", start: "top top", end: "bottom top", scrub: true } });
-    clipReveal(".gallery .tile__media");
+    clipReveal(".gallery .tile__media, .board .tile__media");
   }
 
   /* ---------------- boot ---------------- */
@@ -789,6 +822,7 @@
   specTabs();
 
   if (!motion) {
+    board();
     $(".loader")?.remove();
     $(".cursor")?.remove();
     $(".idx__toggle")?.addEventListener("click", (e) => {
@@ -816,6 +850,7 @@
     aboutScrub();
   } else {
     $(".loader").remove();
+    board();
     introProject();
   }
   addEventListener("load", () => ScrollTrigger.refresh());
