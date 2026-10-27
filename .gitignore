@@ -1,0 +1,4 @@
+# 작업 메모·로컬 파일은 배포하지 않음
+tasks/
+.DS_Store
+.netlify/
