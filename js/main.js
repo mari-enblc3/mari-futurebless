@@ -51,7 +51,7 @@
     document.body.insertAdjacentHTML("beforeend", `
       <footer class="ftr" id="contact">
         <span class="label">Have a brand that needs a world?</span><br>
-        <a class="cta" href="mailto:${esc(S.email)}" data-cursor="view" data-cursor-label="Mail">Let’s make it<br><em>blessed.</em><span class="cta__arrow" aria-hidden="true">↗</span></a>
+        <a class="cta" href="mailto:${esc(S.email)}" data-copy="${esc(S.email)}" data-cursor="view" data-cursor-label="Copy">Let’s make it<br><em>blessed.</em><span class="cta__arrow" aria-hidden="true">↗</span></a>
         <div class="ftr__grid">
           <div><span class="label">Contact</span><p><a href="mailto:${esc(S.email)}">${esc(S.email)}</a></p></div>
           <div><span class="label">Follow</span>${S.instagram.map(([n, u]) => `<p><a href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a></p>`).join("")}</div>
@@ -93,16 +93,21 @@
   const media = (m) => m[4]
     ? `<video src="assets/video/${m[0]}.mp4" muted loop playsinline autoplay preload="metadata"></video>`
     : `<img src="${src(m)}" alt="" loading="lazy" decoding="async">`;
-  // 2단 그리드에서 짝 없이 혼자 남는 세로 이미지(묶음 끝이거나 바로 다음이 가로)는 가운데 정렬
-  function galleryGroup(v) {
-    const cls = v.map((m) => (m[2] > m[3] ? "wide" : ""));
-    let open = -1;
-    v.forEach((m, k) => {
-      if (cls[k] === "wide") { if (open >= 0) cls[open] = "solo"; open = -1; }
-      else open = open >= 0 ? -1 : k;
+  // 2단 그리드에서 짝 없이 혼자 남는 세로 이미지(묶음 끝이거나 바로 다음이 가로)는 가운데 정렬.
+  // "three" 묶음은 큰 화면에서 3단 — 줄 끝에 1~2장 남으면 그것도 가운데로 (o3a: 한 장, o3b: 두 장 중 첫 장)
+  function galleryGroup(v, kind) {
+    const wide = v.map((m) => m[2] > m[3]);
+    const cls = wide.map((w) => (w ? ["wide"] : []));
+    const runs = [[]];
+    v.forEach((m, k) => (wide[k] ? runs.push([]) : runs.at(-1).push(k)));
+    runs.forEach((r) => {
+      if (r.length % 2) cls[r.at(-1)].push("solo");
+      if (kind !== "three") return;
+      const left = r.length % 3;
+      if (left === 1) cls[r.at(-1)].push("o3a");
+      if (left === 2) cls[r.at(-2)].push("o3b");
     });
-    if (open >= 0) cls[open] = "solo";
-    return `<section class="gallery">${v.map((m, k) => `<div class="tile__media ${cls[k]}" style="--ar:${ar(m)}">${media(m)}</div>`).join("")}</section>`;
+    return `<section class="gallery${kind === "three" ? " gallery--3" : ""}">${v.map((m, k) => `<div class="tile__media ${cls[k].join(" ")}" style="--ar:${ar(m)}">${media(m)}</div>`).join("")}</section>`;
   }
   // 무드보드: 작은 원본 이미지를 비율 그대로 벤토 보드에 (열 배치는 board()가 화면 단계별로)
   const boardGroup = (v) => `<section class="board">${v.map((m) => `<div class="tile__media" style="--ar:${ar(m)}">${media(m)}</div>`).join("")}</section>`;
@@ -224,7 +229,7 @@
       </section>
       <figure class="proj__hero"><div class="proj__hero-in" style="--ar:${ar(p.cover)}"><img src="${src(p.cover, 2400)}" alt="${esc(p.title)}" style="view-transition-name:hero"></div></figure>
       ${body.map(([t, v, kind]) => t === "g"
-        ? (kind === "board" ? boardGroup(v) : galleryGroup(v))
+        ? (kind === "board" ? boardGroup(v) : galleryGroup(v, kind))
         : `<div class="proj__cap">${paras(v)}</div>`).join("")}
       ${p.wip ? `<p class="soon">Work in progress.</p>` : ""}
       <a class="next" href="project.html?p=${next.slug}" data-cursor="view" data-cursor-label="Next">
@@ -511,6 +516,25 @@
     });
     addEventListener("pointerdown", () => vfx.press(true));
     addEventListener("pointerup", () => vfx.press(false));
+  }
+
+  // 푸터 CTA: 메일 창 대신 주소를 복사하고 커서 라벨을 Copied로 (복사가 막히면 원래 mailto로)
+  function copyMail(vfx) {
+    $$("[data-copy]").forEach((a) => {
+      let t = 0;
+      a.addEventListener("click", (e) => {
+        if (!navigator.clipboard) return;
+        e.preventDefault();
+        navigator.clipboard.writeText(a.dataset.copy).then(() => {
+          a.dataset.cursorLabel = "Copied";
+          if (!fine) vfx.move(e.clientX, e.clientY, true);
+          vfx.show("Copied");
+          clearTimeout(t);
+          t = setTimeout(() => { a.dataset.cursorLabel = "Copy"; fine && a.matches(":hover") ? vfx.show("Copy") : vfx.hide(); }, 1600);
+        }, () => (location.href = a.href));
+      });
+      a.addEventListener("pointerleave", () => { clearTimeout(t); a.dataset.cursorLabel = "Copy"; });
+    });
   }
 
   function magnetic() {
@@ -838,6 +862,7 @@
   const vfx = viewLabel();
   cursor(vfx);
   tapLoad(vfx);
+  copyMail(vfx);
   magnetic();
   reveals();
   footer();

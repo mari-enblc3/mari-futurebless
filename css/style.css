@@ -334,7 +334,9 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 /* 무드보드(벤토): 열마다 비율 그대로 쌓음, 짝수 열은 스크롤에 어긋나게 흐르므로 아래 캡션과 여유 */
 .board { display: flex; align-items: flex-start; gap: 14px; padding: 0 var(--pad); }
 .board__col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
-.board .tile__media { border-radius: 14px; clip-path: inset(0 0 0 0 round 14px); }
+.board .tile__media { position: relative; border-radius: 14px; clip-path: inset(0 0 0 0 round 14px); }
+/* 캡처 원본의 가장자리 테두리·점 표시가 보이지 않게 사방 5%씩 잘라냄 (비율은 그대로) */
+.board .tile__media img { position: absolute; inset: -5%; width: 110%; max-width: none; height: 110%; }
 .board + .proj__cap { padding-top: 84px; }
 .soon { padding: 10vh var(--pad); font-size: clamp(28px, 3vw, 44px); letter-spacing: -0.03em; color: var(--muted); }
 /* 다음 프로젝트: 제목은 왼쪽, 미리보기 이미지는 오른쪽 자기 칸에 (겹치거나 잘리지 않게) */
@@ -352,6 +354,14 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
   clip-path: inset(100% 0 0 0 round 12px); transition: clip-path 0.8s var(--ease);
 }
 @media (min-width: 1200px) { .next__img { width: min(calc(280px * var(--ar)), 420px); } }
+/* 3단 묶음: 6칸 그리드에서 2칸씩, 줄 끝에 남은 1~2장은 가운데 */
+@media (min-width: 1200px) {
+  .gallery--3 { grid-template-columns: repeat(6, 1fr); }
+  .gallery--3 .tile__media, .gallery--3 .solo { grid-column: span 2; justify-self: stretch; width: auto; }
+  .gallery--3 .wide { grid-column: 1 / -1; }
+  .gallery--3 .o3a { grid-column: 3 / span 2; }
+  .gallery--3 .o3b { grid-column: 2 / span 2; }
+}
 .next__img img { width: 100%; height: 100%; object-fit: cover; scale: 1.2; transition: scale 1.2s var(--ease); }
 .next:hover .next__img { clip-path: inset(0 0 0 0 round 12px); }
 .next:hover .next__img img { scale: 1; }
