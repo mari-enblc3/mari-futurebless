@@ -354,8 +354,8 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
   clip-path: inset(100% 0 0 0 round 12px); transition: clip-path 0.8s var(--ease);
 }
 @media (min-width: 1200px) { .next__img { width: min(calc(280px * var(--ar)), 420px); } }
-/* 3단 묶음: 6칸 그리드에서 2칸씩, 줄 끝에 남은 1~2장은 가운데 */
-@media (min-width: 1200px) {
+/* 3단 묶음(태블릿부터): 6칸 그리드에서 2칸씩, 줄 끝에 남은 1~2장은 가운데 */
+@media (min-width: 768px) {
   .gallery--3 { grid-template-columns: repeat(6, 1fr); }
   .gallery--3 .tile__media, .gallery--3 .solo { grid-column: span 2; justify-self: stretch; width: auto; }
   .gallery--3 .wide { grid-column: 1 / -1; }
