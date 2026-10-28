@@ -305,12 +305,15 @@
       M = o;
     };
 
-    let W = 0, H = 0, R = 0, D = 0, base = 0, frontW = 0, vx = 0, vy = reduce ? 0 : 0.06, drag = null, intro = 0, raf = 0, visible = false, idle = 0, focus = 0;
+    let W = 0, H = 0, RX = 0, RY = 0, base = 0, frontW = 0, vx = 0, vy = reduce ? 0 : 0.06, drag = null, intro = 0, raf = 0, visible = false, idle = 0, focus = 0;
     const layout = () => {
       W = stage.clientWidth; H = stage.clientHeight;
-      R = Math.min(W, H) * 0.6; D = R * 1.7;
       // 이미지 수가 늘면 구 표면이 붐비지 않게 카드 크기를 줄임 (30장 기준)
       base = Math.max(40, Math.min(130, Math.min(W, H) * 0.12 * Math.sqrt(30 / N)));
+      // 원근으로 가장 멀리 튀어나오는 점이 반지름의 약 1.24배 → 그만큼 줄여 무대 안에 꽉 차게.
+      // 가로·세로는 따로 맞추되 너무 납작해지지 않게 1.6배까지만 차이
+      const fx = (W / 2 - base * 0.85) / 1.24, fy = (H / 2 - base * 1.15) / 1.24;
+      RX = Math.min(fx, fy * 1.6); RY = Math.min(fy, fx * 1.6);
       // 카드는 '메인일 때 크기'로 그려두고 축소만 함 → 작은 걸 확대해서 생기는 흐림 없음
       frontW = Math.min(W * 0.62, H * 0.5);
       items.forEach((it) => {
@@ -354,13 +357,13 @@
       // 3) 그리기: 나머지는 원래 크기 그대로, 메인 한 장만 무대 절반 크기까지 키움
       items.forEach((it, i) => {
         const [X, Y, Z] = P[i];
-        const s = D / (D - Z * R);
+        const s = 1.7 / (1.7 - Z);
         it.b += ((i === fi ? focus : 0) - it.b) * 0.15;
         // 화면에 보일 폭: 평소엔 원근 크기, 메인이 되면 it.big까지 (축소 배율 = 보일 폭 / 실제 폭)
         const small = base * it.s * s;
         const shown = small + (it.big - small) * Math.max(0, it.b);
         const k = reduce ? 1 : back(Math.max(0, Math.min(1, (intro - it.d * 0.5) / 0.5)));
-        it.el.style.transform = `translate3d(${W / 2 + X * R * s * (1 - it.b)}px, ${H / 2 + Y * R * s * (1 - it.b)}px, 0) scale(${(shown / it.big) * k}) translate(-50%, -50%)`;
+        it.el.style.transform = `translate3d(${W / 2 + X * RX * s * (1 - it.b)}px, ${H / 2 + Y * RY * s * (1 - it.b)}px, 0) scale(${(shown / it.big) * k}) translate(-50%, -50%)`;
         it.el.style.zIndex = 1000 + Math.round(Z * 500) + (it.b > 0.02 ? 2000 : 0);
         it.el.style.opacity = it.b > 0.02 ? 1 : 0.55 + 0.45 * ((Z + 1) / 2);
         // 메인이 되면 고해상도로 교체(미리 받아두고 바꿔서 깜빡임 없음)

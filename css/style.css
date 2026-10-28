@@ -198,12 +198,12 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .spec__col:nth-child(3) { padding-top: 8vh; }
 .tile { display: block; }
 .tile__media { overflow: hidden; border-radius: 12px; aspect-ratio: var(--ar); background: var(--card); clip-path: inset(0 0 0 0 round 12px); }
-.tile__media img { width: 100%; height: 100%; object-fit: cover; transition: scale 1.1s var(--ease), filter 0.9s var(--ease); }
-.tile__cap { transition: filter 0.6s var(--ease), opacity 0.6s var(--ease); }
+.tile__media img { width: 100%; height: 100%; object-fit: cover; transition: scale 1.1s var(--ease), filter 0.9s var(--ease), opacity 0.6s var(--ease); }
+.tile__cap { transition: opacity 0.6s var(--ease); }
+/* 썸네일은 처음부터 선명하게, 올리면 반투명해지며 View 커서 */
 @media (hover: hover) and (pointer: fine) {
-  .tile .tile__media img { filter: blur(22px) saturate(115%); scale: 1.18; }
-  .tile:hover .tile__media img { filter: blur(0px) saturate(100%); scale: 1.02; }
-  .spec__grid:hover .tile:not(:hover) .tile__cap { opacity: 0.5; filter: blur(1.5px); }
+  .tile:hover .tile__media img { opacity: 0.55; scale: 1.02; }
+  .spec__grid:hover .tile:not(:hover) .tile__cap { opacity: 0.5; }
 }
 .tile__cap { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 12px; font-size: 14px; line-height: 1.3; }
 .tile__cap .label { white-space: nowrap; }
@@ -257,8 +257,9 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 
 /* ---------- gallery: 3D 구 드래그 ---------- */
 .gal { padding: 14vh var(--pad) 0; }
+.gal .sec-head { border-bottom: 0; }
 .gal__stage {
-  position: relative; height: min(88svh, 920px); margin: 2vh calc(var(--pad) * -1) 0; overflow: hidden;
+  position: relative; height: max(560px, 100svh); margin: 2vh calc(var(--pad) * -1) 0; overflow: hidden;
   touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab;
 }
 .gal__stage.is-drag { cursor: grabbing; }
