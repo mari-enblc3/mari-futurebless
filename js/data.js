@@ -73,6 +73,8 @@ window.SITE = {
   ],
 
   speculative: [
+    { slug: "chanel-hydra-beauty-cream", title: "CHANEL Hydra Beauty Cream", cover: ["L3780379045044375309844724135973", "chanel-hydra-beauty-creme.jpg", 1920, 2400] },
+    { slug: "roadster", title: "ROADSTER", cover: ["L3203475252351115332627564199707", "roadster.jpg", 1600, 2000] },
     { slug: "hyundai-card-green-edition-4", title: "Hyundai Card Green Edition 4", cover: ["Q3105748407461116901414931285322", "hyundai-card-green-edition-4.jpg", 1611, 2000] },
     { slug: "apple-futurism-car", title: "Apple Futurism Car", cover: ["V3340316889625780621162001521156", "apple-futurism-car.jpg", 1493, 2000] },
     { slug: "exhibition", title: "Exhibition", cover: ["T3763355704612129985355238509085", "exhibition.jpg", 1493, 2000] },
@@ -96,6 +98,7 @@ window.SITE = {
   // 기존 Cargo 사이트 spec 페이지(industrial·artwork 스크롤 + 각 프로젝트 페이지)의 나머지 이미지 전체. 갤러리에만 사용
   // 기존 사이트 spec-scroll-artwork 목록(순서·캡션 원본 그대로). page가 있으면 상세 페이지(js/pages.js) 연결
   artwork: [
+    { slug: "meovv-ella", page: "meovv-ella", title: "MEOVV ELLA", cover: ["B3447843311921925276558089250981", "meovv-ella-1.jpg", 1620, 2025] },
     { slug: "karina", page: "karina", title: "Karina", cover: ["W3015164628846875819925001404689", "karina-final1-2.jpg", 3096, 3869] },
     { slug: "arcteryx", page: "arcteryx", title: "Arc’teryx", cover: ["Y3141902879211912812551187445330", "Arc-terix-artwork-1-1.jpg", 2992, 4007] },
     { slug: "arcteryx-2", title: "Arc’teryx", cover: ["U3142440688778059753521329714770", "hf_20260320_042122_bdd34aab-d55f-4d8b-be00-bfe1502d31f0.png", 1536, 2048] },

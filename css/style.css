@@ -38,10 +38,10 @@
   :root { --pad: 32px; --fs-lead: 36px; --fs-display: 104px; --fs-title: 80px; --fs-xl: 88px; --fs-year: 64px; --fs-card: 28px; --logo-w: 680px; }
 }
 @media (min-width: 1200px) {
-  :root { --pad: 48px; --fs-lead: 50px; --fs-display: 140px; --fs-title: 112px; --fs-xl: 120px; --fs-year: 84px; --fs-card: 32px; --logo-w: 900px; }
+  :root { --pad: 48px; --fs-lead: 56px; --fs-display: 140px; --fs-title: 112px; --fs-xl: 120px; --fs-year: 84px; --fs-card: 32px; --logo-w: 900px; }
 }
 @media (min-width: 1800px) {
-  :root { --pad: 64px; --fs-lead: 58px; --fs-display: 160px; --fs-title: 128px; --fs-xl: 136px; --fs-year: 96px; --fs-card: 36px; --logo-w: 1040px; }
+  :root { --pad: 64px; --fs-lead: 72px; --fs-display: 160px; --fs-title: 128px; --fs-xl: 136px; --fs-year: 96px; --fs-card: 36px; --logo-w: 1040px; }
 }
 
 /* ---------- base ---------- */

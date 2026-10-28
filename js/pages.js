@@ -299,6 +299,17 @@ window.PAGES = {
       ]],
     ],
   },
+  "meovv-ella": {
+    title: "MEOVV ELLA",
+    date: "Oct, 2026",
+    body: [
+      ["t", "AI Image Generate"],
+      ["g", [
+        ["B3447843311921925276558089250981","meovv-ella-1.jpg",1620,2025],
+        ["K3485269981047181346393620165673","meovv-ella-2.jpg",1620,2025],
+      ]],
+    ],
+  },
   "karina": {
     title: "Karina",
     date: "Oct, 2026",
