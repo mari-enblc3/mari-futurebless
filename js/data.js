@@ -99,7 +99,7 @@ window.SITE = {
   // 기존 사이트 spec-scroll-artwork 목록(순서·캡션 원본 그대로). page가 있으면 상세 페이지(js/pages.js) 연결
   artwork: [
     { slug: "meovv-ella", page: "meovv-ella", title: "MEOVV ELLA", cover: ["K3485269981047181346393620165673", "meovv-ella-2.jpg", 1620, 2025] },
-    { slug: "karina", page: "karina", title: "Karina", cover: ["W3015164628846875819925001404689", "karina-final1-2.jpg", 3096, 3869] },
+    { slug: "karina", page: "karina", title: "Karina", cover: ["C3927020103856691044158980935355", "karina-final3-2.jpg", 4000, 4966] },
     { slug: "arcteryx", page: "arcteryx", title: "Arc’teryx", cover: ["Y3141902879211912812551187445330", "Arc-terix-artwork-1-1.jpg", 2992, 4007] },
     { slug: "arcteryx-2", title: "Arc’teryx", cover: ["U3142440688778059753521329714770", "hf_20260320_042122_bdd34aab-d55f-4d8b-be00-bfe1502d31f0.png", 1536, 2048] },
     { slug: "raye", title: "Raye", cover: ["A3141900535995800105521683871314", "Raye-00.jpg", 2945, 3682] },
