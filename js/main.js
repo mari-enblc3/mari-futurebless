@@ -178,7 +178,7 @@
       <section class="about" id="about">
         <div class="sec-head"><span>About</span><span class="label">${esc(S.studio)}</span></div>
         <p class="about__lead" data-scrub>${lines(S.about)}</p>
-        ${S.aboutBody ? `<p class="about__body" data-reveal>${esc(S.aboutBody)}</p>` : ""}
+        ${S.aboutBody ? `<p class="about__body" data-reveal>${[].concat(S.aboutBody).map(esc).join("<br>")}</p>` : ""}
         ${S.method ? `
         <div class="method" data-reveal>
           <div class="method__head"><span class="label">Method</span><h3 class="method__title">${esc(S.method.title)}</h3><p>${esc(S.method.intro)}</p></div>

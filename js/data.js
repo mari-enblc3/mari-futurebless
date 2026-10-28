@@ -19,7 +19,8 @@ window.SITE = {
   },
   // About: 스튜디오 문장 → 설립자 배경 → 작업 방식(Logical Humanities Aesthetic)
   about: ["A creative\u00a0direction\u00a0studio", "where fashion, music and beauty meet the\u00a0brand\u00a0—", "held\u00a0to commercial\u00a0standards, open to experiment."],
-  aboutBody: "Founded by Jeong A Mari Lee, Future Bless brings a critical lens shaped by contemporary\u00a0art and aesthetics (Intermedia Art, Kaywon University of Art & Design) to commercial\u00a0culture. We plan and direct work end\u00a0to\u00a0end, using AI\u00a0tools and systems as deliberate instruments for more experimental, self-directed results.",
+  // 문장마다 줄을 바꿈
+  aboutBody: ["Founded by Jeong A Mari Lee, Future Bless brings a critical lens shaped by contemporary\u00a0art and aesthetics (Intermedia Art, Kaywon University of Art & Design) to commercial\u00a0culture.", "We plan and direct work end\u00a0to\u00a0end, using AI\u00a0tools and systems as deliberate instruments for more experimental, self-directed results."],
   method: {
     title: "Logical Humanities Aesthetic",
     intro: "A three-layered framework behind every project.",
