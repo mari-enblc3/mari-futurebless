@@ -337,6 +337,10 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .proj__hero { margin: 0 0 14px; padding: 0 var(--pad); }
 .proj__hero-in { overflow: hidden; border-radius: 18px; aspect-ratio: var(--ar); max-height: 92svh; width: 100%; background: var(--card); }
 .proj__hero img { width: 100%; height: 116%; margin-top: -8%; object-fit: cover; }
+/* 한 장짜리 작업: 미술관 벽에 건 것처럼 화면 높이 안에 온전히, 가운데, 위아래 넉넉한 여백 */
+.proj__hero--solo { display: flex; justify-content: center; padding: 4vh var(--pad) 16vh; }
+.proj__hero--solo .proj__hero-in { width: min(100%, calc(80svh * var(--ar))); max-height: none; border-radius: 4px; }
+.proj__hero--solo img { height: 100%; margin-top: 0; }
 .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 0 var(--pad); }
 .gallery .tile__media { border-radius: 14px; clip-path: inset(0 0 0 0 round 14px); }
 .gallery .wide { grid-column: span 2; }

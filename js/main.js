@@ -239,7 +239,7 @@
         </div>
         ${intro ? `<div class="proj__intro" data-intro>${paras(intro)}</div>` : ""}
       </section>
-      ${solo ? `<figure class="proj__hero"><div class="proj__hero-in" style="--ar:${ar(p.cover)}"><img src="${src(p.cover, 2400)}" alt="${esc(p.title)}" style="view-transition-name:hero"></div></figure>` : ""}
+      ${solo ? `<figure class="proj__hero proj__hero--solo"><div class="proj__hero-in" style="--ar:${ar(p.cover)}"><img src="${src(p.cover, 2400)}" alt="${esc(p.title)}" style="view-transition-name:hero"></div></figure>` : ""}
       ${body.map(([t, v, kind]) => t === "g"
         ? (kind === "board" ? boardGroup(v) : galleryGroup(v, kind))
         : `<div class="proj__cap">${paras(v)}</div>`).join("")}
@@ -867,12 +867,17 @@
       if (!morphed) tl.from(".proj__hero-in", { clipPath: "inset(100% 0% 0% 0% round 18px)", duration: 1.4, ease: "expo.inOut" }, 0.2)
         .from(".proj__hero img", { scale: 1.3, duration: 2 }, "<0.2");
 
-      // 스크롤하면 히어로가 화면 가득 펼쳐짐
-      const padPx = parseFloat(getComputedStyle(hero).paddingLeft);
-      gsap.fromTo(hero, { paddingLeft: padPx, paddingRight: padPx },
-        { paddingLeft: 0, paddingRight: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top 60%", end: "top top", scrub: true } });
-      gsap.to(".proj__hero-in", { borderRadius: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top 60%", end: "top top", scrub: true } });
-      gsap.to(".proj__hero img", { yPercent: 6, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+      // 한 장짜리 작업은 화면 가득 펼치거나 자르지 않고, 액자처럼 가운데에 온전히 걸어둠
+      if (hero.classList.contains("proj__hero--solo")) {
+        gsap.fromTo(".proj__hero-in", { scale: 0.94 }, { scale: 1, ease: "none", scrollTrigger: { trigger: hero, start: "top bottom", end: "center center", scrub: true } });
+      } else {
+        // 스크롤하면 히어로가 화면 가득 펼쳐짐
+        const padPx = parseFloat(getComputedStyle(hero).paddingLeft);
+        gsap.fromTo(hero, { paddingLeft: padPx, paddingRight: padPx },
+          { paddingLeft: 0, paddingRight: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top 60%", end: "top top", scrub: true } });
+        gsap.to(".proj__hero-in", { borderRadius: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top 60%", end: "top top", scrub: true } });
+        gsap.to(".proj__hero img", { yPercent: 6, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+      }
     }
     clipReveal(".gallery .tile__media, .board .tile__media");
   }
