@@ -215,6 +215,8 @@
     const intro = body[0]?.[0] === "t" ? body.shift()[1] : p.desc || "";
     const type = p.group === "Official" ? "Commission" : `Speculative — ${p.group}`;
     const back = p.group === "Official" ? "official" : "speculative";
+    // 썸네일(cover)은 목록용: 상세에 자기 이미지 묶음이 있으면 반복하지 않고, 이미지가 그것뿐일 때만 크게 보여줌
+    const solo = !body.some(([t]) => t === "g");
 
     $("#app").innerHTML = `
       <section class="proj__head">
@@ -228,7 +230,7 @@
         </div>
         ${intro ? `<div class="proj__intro" data-intro>${paras(intro)}</div>` : ""}
       </section>
-      <figure class="proj__hero"><div class="proj__hero-in" style="--ar:${ar(p.cover)}"><img src="${src(p.cover, 2400)}" alt="${esc(p.title)}" style="view-transition-name:hero"></div></figure>
+      ${solo ? `<figure class="proj__hero"><div class="proj__hero-in" style="--ar:${ar(p.cover)}"><img src="${src(p.cover, 2400)}" alt="${esc(p.title)}" style="view-transition-name:hero"></div></figure>` : ""}
       ${body.map(([t, v, kind]) => t === "g"
         ? (kind === "board" ? boardGroup(v) : galleryGroup(v, kind))
         : `<div class="proj__cap">${paras(v)}</div>`).join("")}
@@ -823,15 +825,18 @@
     const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15 });
     tl.to(words, { ...blurIn, stagger: 0.04 })
       .to("[data-intro]", { opacity: 1, y: 0, duration: 1.2 }, "<0.3");
-    if (!morphed) tl.from(".proj__hero-in", { clipPath: "inset(100% 0% 0% 0% round 18px)", duration: 1.4, ease: "expo.inOut" }, 0.2)
-      .from(".proj__hero img", { scale: 1.3, duration: 2 }, "<0.2");
+    const hero = $(".proj__hero");
+    if (hero) {
+      if (!morphed) tl.from(".proj__hero-in", { clipPath: "inset(100% 0% 0% 0% round 18px)", duration: 1.4, ease: "expo.inOut" }, 0.2)
+        .from(".proj__hero img", { scale: 1.3, duration: 2 }, "<0.2");
 
-    // 스크롤하면 히어로가 화면 가득 펼쳐짐
-    const padPx = parseFloat(getComputedStyle($(".proj__hero")).paddingLeft);
-    gsap.fromTo(".proj__hero", { paddingLeft: padPx, paddingRight: padPx },
-      { paddingLeft: 0, paddingRight: 0, ease: "none", scrollTrigger: { trigger: ".proj__hero", start: "top 60%", end: "top top", scrub: true } });
-    gsap.to(".proj__hero-in", { borderRadius: 0, ease: "none", scrollTrigger: { trigger: ".proj__hero", start: "top 60%", end: "top top", scrub: true } });
-    gsap.to(".proj__hero img", { yPercent: 6, ease: "none", scrollTrigger: { trigger: ".proj__hero", start: "top top", end: "bottom top", scrub: true } });
+      // 스크롤하면 히어로가 화면 가득 펼쳐짐
+      const padPx = parseFloat(getComputedStyle(hero).paddingLeft);
+      gsap.fromTo(hero, { paddingLeft: padPx, paddingRight: padPx },
+        { paddingLeft: 0, paddingRight: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top 60%", end: "top top", scrub: true } });
+      gsap.to(".proj__hero-in", { borderRadius: 0, ease: "none", scrollTrigger: { trigger: hero, start: "top 60%", end: "top top", scrub: true } });
+      gsap.to(".proj__hero img", { yPercent: 6, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    }
     clipReveal(".gallery .tile__media, .board .tile__media");
   }
 
