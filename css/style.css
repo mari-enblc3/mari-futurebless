@@ -35,7 +35,7 @@
 }
 
 @media (min-width: 768px) {
-  :root { --pad: 32px; --fs-lead: clamp(36px, 4vw, 88px); --fs-display: 104px; --fs-title: 80px; --fs-xl: 88px; --fs-year: 64px; --fs-card: 28px; --logo-w: 680px; }
+  :root { --pad: 32px; --fs-lead: clamp(28px, 4vw, 88px); --fs-display: 104px; --fs-title: 80px; --fs-xl: 88px; --fs-year: 64px; --fs-card: 28px; --logo-w: 680px; }
 }
 @media (min-width: 1200px) {
   :root { --pad: 48px; --fs-display: 140px; --fs-title: 112px; --fs-xl: 120px; --fs-year: 84px; --fs-card: 32px; --logo-w: 900px; }
@@ -68,6 +68,7 @@ em { font-style: normal; color: var(--muted); }
 h1, h2, h3, .hero__lead, .about__lead, .cta, .next__title, .soon { text-wrap: balance; }
 p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .nb { white-space: nowrap; }
+@media (max-width: 767px) { .br-d { display: none; } }
 .w, .wi { display: inline-block; }
 
 /* ---------- loader ---------- */
@@ -131,7 +132,7 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 /* ---------- hero ---------- */
 .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 140px var(--pad) 0; }
 .hero__inner { padding-bottom: 6vh; }
-.hero__lead { margin: 0; max-width: 18em; font-size: var(--fs-lead); line-height: 1.08; letter-spacing: -0.035em; font-weight: 400; }
+.hero__lead { margin: 0; max-width: 22em; font-size: var(--fs-lead); line-height: 1.08; letter-spacing: -0.035em; font-weight: 400; }
 .hero__lead .dim { color: var(--muted); }
 /* 각 칸 폭을 내용에 맞춰서 지정한 줄바꿈 그대로 보이게 */
 .hero__meta { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: 24px 32px; margin-top: 5vh; font-size: 13px; }

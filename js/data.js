@@ -14,11 +14,12 @@ window.SITE = {
   // 히어로: 마지막 슬라이드 키워드(한 줄씩) + 스튜디오 소개 한 줄
   hero: {
     lead: ["Interdisciplinary,", "convergent,", "ultimate."],
-    sub: "Future Bless is a creative direction studio building brands across fashion, music and beauty — from first logic to final image.",
+    // 줄 단위 배열: 태블릿 이상에서는 이 단위로 줄바꿈 고정, 모바일은 자연스럽게 흐름
+    sub: ["Future Bless is\u00a0a creative\u00a0direction\u00a0studio", "building brands across fashion, music\u00a0and\u00a0beauty\u00a0—", "from first logic to final image."],
   },
   // About: 스튜디오 문장 → 설립자 배경 → 작업 방식(Logical Humanities Aesthetic)
-  about: "A creative direction studio where fashion, music and beauty meet the brand — held to commercial standards, open to experiment.",
-  aboutBody: "Founded by Jeong A Mari Lee, Future Bless brings a critical lens shaped by contemporary art and aesthetics (Intermedia Art, Kaywon University of Art & Design) to commercial culture. We plan and direct work end to end, using AI tools and systems as deliberate instruments for more experimental, self-directed results.",
+  about: ["A creative\u00a0direction\u00a0studio", "where fashion, music and beauty meet the\u00a0brand\u00a0—", "held\u00a0to commercial\u00a0standards, open to experiment."],
+  aboutBody: "Founded by Jeong A Mari Lee, Future Bless brings a critical lens shaped by contemporary\u00a0art and aesthetics (Intermedia Art, Kaywon University of Art & Design) to commercial\u00a0culture. We plan and direct work end\u00a0to\u00a0end, using AI\u00a0tools and systems as deliberate instruments for more experimental, self-directed results.",
   method: {
     title: "Logical Humanities Aesthetic",
     intro: "A three-layered framework behind every project.",

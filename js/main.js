@@ -112,6 +112,8 @@
   }
   // 무드보드: 작은 원본 이미지를 비율 그대로 벤토 보드에 (열 배치는 board()가 화면 단계별로)
   const boardGroup = (v) => `<section class="board">${v.map((m) => `<div class="tile__media" style="--ar:${ar(m)}">${media(m)}</div>`).join("")}</section>`;
+  // 줄 배열 → 태블릿 이상에서만 보이는 줄바꿈(모바일은 공백으로 자연스럽게 이어짐)
+  const lines = (v) => [].concat(v).map(esc).join(' <br class="br-d">');
   const paras = (t) => t.split("\n").filter(Boolean).map((l) => `<p>${esc(l)}</p>`).join("");
 
   function yearBlock([year, lines]) {
@@ -133,7 +135,7 @@
     $("#app").innerHTML = `
       <section class="hero" id="top">
         <div class="hero__inner">
-          <h1 class="hero__lead" data-split="intro"><span class="dim">${[].concat(S.hero.lead).map(esc).join("<br>")}</span><br>${esc(S.hero.sub)}</h1>
+          <h1 class="hero__lead" data-split="intro"><span class="dim">${[].concat(S.hero.lead).map(esc).join("<br>")}</span><br>${lines(S.hero.sub)}</h1>
           <div class="hero__meta" data-intro>
             <div><span class="label">Worked with</span><p>Beauty of Joseon<br><span class="nb">LIONAT (for Yeonkoung Kim 김연경)</span></p></div>
             <div><span class="label">Services</span><p><span class="nb">Brand eXperience, Creative &amp; Art Direction,</span><br>Strategy</p></div>
@@ -175,7 +177,7 @@
 
       <section class="about" id="about">
         <div class="sec-head"><span>About</span><span class="label">${esc(S.studio)}</span></div>
-        <p class="about__lead" data-scrub>${esc(S.about)}</p>
+        <p class="about__lead" data-scrub>${lines(S.about)}</p>
         ${S.aboutBody ? `<p class="about__body" data-reveal>${esc(S.aboutBody)}</p>` : ""}
         ${S.method ? `
         <div class="method" data-reveal>
@@ -249,9 +251,10 @@
     const walk = (node) => [...node.childNodes].forEach((n) => {
       if (n.nodeType === 3) {
         const frag = document.createDocumentFragment(), ws = [];
-        n.textContent.split(/(\s+)/).forEach((part) => {
+        // 줄바꿈 없는 공백(\u00a0)으로 묶은 구절은 한 단어로 취급해 끊기지 않게
+        n.textContent.split(/([ \t\n\r]+)/).forEach((part) => {
           if (!part) return;
-          if (/^\s+$/.test(part)) return frag.append(" ");
+          if (/^[ \t\n\r]+$/.test(part)) return frag.append(" ");
           const w = document.createElement("span"), wi = document.createElement("span");
           w.className = "w"; wi.className = "wi"; wi.textContent = part;
           w.append(wi); frag.append(w); out.push(wi); ws.push(w);
