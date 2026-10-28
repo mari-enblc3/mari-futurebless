@@ -73,6 +73,10 @@ window.SITE = {
   ],
 
   speculative: [
+    { slug: "hyundai-card-green-edition-4", title: "Hyundai Card Green Edition 4", cover: ["Q3105748407461116901414931285322", "hyundai-card-green-edition-4.jpg", 1611, 2000] },
+    { slug: "apple-futurism-car", title: "Apple Futurism Car", cover: ["V3340316889625780621162001521156", "apple-futurism-car.jpg", 1493, 2000] },
+    { slug: "exhibition", title: "Exhibition", cover: ["T3763355704612129985355238509085", "exhibition.jpg", 1493, 2000] },
+    { slug: "mercedes-maybach-s-class", title: "Mercedes-Maybach S-Class", cover: ["C3538919170735336686993528151722", "mercedes-maybach-s-class.jpg", 1506, 2000] },
     { slug: "rolex-x-agamemnon", title: "ROLEX × Agamemnon — The Odyssey", cover: ["S3137688165041469573868784432722", "X-1.png", 1620, 2025] },
     { slug: "marc-jacobs-beauty", page: "marc-jabobs-beauty", title: "Marc Jacobs Beauty", cover: ["Y3137715357626716302077045749330", "MJC-beauty-2.jpg", 5000, 6207] },
     { slug: "prada-perfume", title: "Prada Perfume", cover: ["S3137718456403019524176073963090", "prada_perfume.jpg", 1638, 2048] },
@@ -92,6 +96,7 @@ window.SITE = {
   // 기존 Cargo 사이트 spec 페이지(industrial·artwork 스크롤 + 각 프로젝트 페이지)의 나머지 이미지 전체. 갤러리에만 사용
   // 기존 사이트 spec-scroll-artwork 목록(순서·캡션 원본 그대로). page가 있으면 상세 페이지(js/pages.js) 연결
   artwork: [
+    { slug: "karina", page: "karina", title: "Karina", cover: ["W3015164628846875819925001404689", "karina-final1-2.jpg", 3096, 3869] },
     { slug: "arcteryx", page: "arcteryx", title: "Arc’teryx", cover: ["Y3141902879211912812551187445330", "Arc-terix-artwork-1-1.jpg", 2992, 4007] },
     { slug: "arcteryx-2", title: "Arc’teryx", cover: ["U3142440688778059753521329714770", "hf_20260320_042122_bdd34aab-d55f-4d8b-be00-bfe1502d31f0.png", 1536, 2048] },
     { slug: "raye", title: "Raye", cover: ["A3141900535995800105521683871314", "Raye-00.jpg", 2945, 3682] },
