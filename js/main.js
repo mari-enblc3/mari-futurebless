@@ -339,8 +339,8 @@
     });
     const layout = () => {
       W = stage.clientWidth; H = stage.clientHeight;
-      // 이미지 수가 늘면 구 표면이 붐비지 않게 카드 크기를 줄임 (30장 기준)
-      base = Math.max(40, Math.min(130, Math.min(W, H) * 0.12 * Math.sqrt(30 / N)));
+      // 이미지 수가 늘면 구 표면이 붐비지 않게 카드 크기를 줄임 (30장 기준). 모바일은 더 작게 해서 널리 퍼진 느낌
+      base = Math.max(W < 768 ? 22 : 40, Math.min(130, Math.min(W, H) * (W < 768 ? 0.1 : 0.12) * Math.sqrt(30 / N)));
       // 원근으로 가장 멀리 튀어나오는 점이 반지름의 약 1.24배 → 그만큼 줄여 무대 안에 꽉 차게.
       // 가로·세로는 따로 맞추되 너무 납작해지지 않게 1.6배까지만 차이
       const fx = (W / 2 - base * 0.85) / 1.24, fy = (H / 2 - base * 1.15) / 1.24;
