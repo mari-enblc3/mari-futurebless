@@ -258,7 +258,15 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 
 /* ---------- gallery: 3D 구 드래그 ---------- */
 .gal { padding: 14vh var(--pad) 0; }
-.gal .sec-head { border-bottom: 0; }
+.gal .sec-head { align-items: center; border-bottom: 0; }
+.gal__title { display: inline-flex; align-items: center; gap: 12px; }
+/* 셔플 버튼: 테마 버튼과 같은 원형 필, 누르면 아이콘이 한 바퀴 */
+.gal__shuffle {
+  width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--pill);
+  cursor: pointer; display: grid; place-items: center; padding: 0; transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.gal__shuffle svg { width: 14px; height: 14px; transform: rotate(var(--spin, 0deg)); transition: transform 1.2s var(--ease); }
+@media (hover: hover) { .gal__shuffle:hover { background: var(--fg); color: var(--bg); } }
 .gal__stage {
   position: relative; height: max(560px, 100svh); margin: 2vh calc(var(--pad) * -1) 0; overflow: hidden;
   touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab;

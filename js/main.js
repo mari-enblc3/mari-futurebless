@@ -199,7 +199,14 @@
       </section>
 
       <section class="gal" id="gallery">
-        <div class="sec-head"><span>Gallery — drag to spin</span><span class="label">${galleryPool().length} images</span></div>
+        <div class="sec-head">
+          <span class="gal__title">Gallery — drag to spin
+            <button class="gal__shuffle" type="button" aria-label="Shuffle gallery" data-magnetic>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4.5h2.5c3.5 0 5.5 7 9 7H15M13 9.5l2 2-2 2M1 11.5h2.5c1.3 0 2.4-1 3.3-2.3M9.2 6.8c.9-1.3 2-2.3 3.3-2.3H15M13 2.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </span>
+          <span class="label">${galleryPool().length} images</span>
+        </div>
         <div class="gal__stage" data-cursor="view" data-cursor-label="Drag"></div>
       </section>`;
   }
@@ -311,6 +318,29 @@
     };
 
     let W = 0, H = 0, RX = 0, RY = 0, base = 0, frontW = 0, vx = 0, vy = reduce ? 0 : 0.06, drag = null, intro = 0, raf = 0, visible = false, idle = 0, focus = 0;
+    // 셔플: 카드가 가운데로 모였다가(in) 구 위 자리를 서로 바꾼 뒤 다시 튕기듯 펼쳐짐(out)
+    const mix = { phase: "", t: 0 };
+    const reseat = () => {
+      const pts = items.map((it) => it.p);
+      for (let i = pts.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [pts[i], pts[j]] = [pts[j], pts[i]]; }
+      items.forEach((it, i) => { it.p = pts[i]; it.d = Math.random(); });
+    };
+    const shuffle = () => {
+      if (mix.phase) return;
+      if (reduce || !window.gsap) return reseat();
+      idle = 0; vy += 0.14;
+      mix.phase = "in"; mix.t = 0;
+      gsap.to(mix, { t: 1, duration: 0.6, ease: "power3.in", onComplete: () => {
+        reseat();
+        mix.phase = "out"; mix.t = 0;
+        gsap.to(mix, { t: 1, duration: 1.4, ease: "none", onComplete: () => (mix.phase = "") });
+      } });
+    };
+    let spins = 0;
+    $(".gal__shuffle")?.addEventListener("click", (e) => {
+      e.currentTarget.style.setProperty("--spin", `${++spins * 360}deg`);
+      shuffle();
+    });
     const layout = () => {
       W = stage.clientWidth; H = stage.clientHeight;
       // 이미지 수가 늘면 구 표면이 붐비지 않게 카드 크기를 줄임 (30장 기준)
@@ -356,7 +386,7 @@
       }
       rot(vx + sx, vy + sy);
       // 멈춰서 메인으로 놓였을 때만 크게: 움직이는 동안엔 0으로 돌아감
-      focus += ((!drag && Math.hypot(vx, vy) < 0.015 ? 1 : 0) - focus) * 0.12;
+      focus += ((!drag && !mix.phase && Math.hypot(vx, vy) < 0.015 ? 1 : 0) - focus) * 0.12;
       intro = Math.min(1, intro + 0.014);
 
       // 3) 그리기: 나머지는 원래 크기 그대로, 메인 한 장만 무대 절반 크기까지 키움
@@ -368,7 +398,10 @@
         const small = base * it.s * s;
         const shown = small + (it.big - small) * Math.max(0, it.b);
         const k = reduce ? 1 : back(Math.max(0, Math.min(1, (intro - it.d * 0.5) / 0.5)));
-        it.el.style.transform = `translate3d(${W / 2 + X * RX * s * (1 - it.b)}px, ${H / 2 + Y * RY * s * (1 - it.b)}px, 0) scale(${(shown / it.big) * k}) translate(-50%, -50%)`;
+        // 셔플 중 퍼짐 정도: 모일 땐 1→0, 펼칠 땐 카드마다 시차를 두고 0→1(살짝 넘쳤다 돌아옴)
+        const f = mix.phase === "in" ? 1 - mix.t : mix.phase === "out" ? back(Math.max(0, Math.min(1, (mix.t - it.d * 0.4) / 0.6))) : 1;
+        const g = 0.35 + 0.65 * Math.min(1, f);
+        it.el.style.transform = `translate3d(${W / 2 + X * RX * s * (1 - it.b) * f}px, ${H / 2 + Y * RY * s * (1 - it.b) * f}px, 0) scale(${(shown / it.big) * k * g}) translate(-50%, -50%)`;
         it.el.style.zIndex = 1000 + Math.round(Z * 500) + (it.b > 0.02 ? 2000 : 0);
         it.el.style.opacity = it.b > 0.02 ? 1 : 0.55 + 0.45 * ((Z + 1) / 2);
         // 메인이 되면 고해상도로 교체(미리 받아두고 바꿔서 깜빡임 없음)
