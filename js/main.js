@@ -318,24 +318,20 @@
     };
 
     let W = 0, H = 0, RX = 0, RY = 0, base = 0, frontW = 0, vx = 0, vy = reduce ? 0 : 0.06, drag = null, intro = 0, raf = 0, visible = false, idle = 0, focus = 0;
-    // 셔플: 카드가 가운데로 모였다가(in) 구 위 자리를 서로 바꾼 뒤 다시 튕기듯 펼쳐짐(out)
-    const mix = { phase: "", t: 0 };
-    const reseat = () => {
+    // 셔플: 메인 카드가 먼저 구로 돌아가고, 구가 숨 쉬듯 살짝 오므라들며 빨리 돌 때
+    // 카드마다 원래 자리에서 새 자리로 구 안쪽을 가로질러 옮겨감 (조금씩 시차를 두고)
+    const mix = { on: false, t: 0 };
+    const shuffle = () => {
+      if (mix.on) return;
       const pts = items.map((it) => it.p);
       for (let i = pts.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [pts[i], pts[j]] = [pts[j], pts[i]]; }
-      items.forEach((it, i) => { it.p = pts[i]; it.d = Math.random(); });
+      if (reduce || !window.gsap) return items.forEach((it, i) => (it.p = pts[i]));
+      items.forEach((it, i) => { it.p0 = it.p; it.p1 = pts[i]; it.lag = Math.random() * 0.3; });
+      idle = 0; vy += 0.1;
+      mix.on = true; mix.t = 0;
+      gsap.to(mix, { t: 1, duration: 1.7, ease: "none", onComplete: () => { items.forEach((it) => (it.p = it.p1)); mix.on = false; } });
     };
-    const shuffle = () => {
-      if (mix.phase) return;
-      if (reduce || !window.gsap) return reseat();
-      idle = 0; vy += 0.14;
-      mix.phase = "in"; mix.t = 0;
-      gsap.to(mix, { t: 1, duration: 0.6, ease: "power3.in", onComplete: () => {
-        reseat();
-        mix.phase = "out"; mix.t = 0;
-        gsap.to(mix, { t: 1, duration: 1.4, ease: "none", onComplete: () => (mix.phase = "") });
-      } });
-    };
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
     let spins = 0;
     $(".gal__shuffle")?.addEventListener("click", (e) => {
       e.currentTarget.style.setProperty("--spin", `${++spins * 360}deg`);
@@ -361,8 +357,13 @@
     const tick = () => {
       let sx = 0, sy = 0;
       // 1) 회전 결과 계산 + 가장 앞(Z 최대) 이미지 찾기
+      // 셔플 중에는 두 자리 사이를 직선으로 보간 → 가운데쯤에서 구 안쪽을 지나감
       const P = items.map((it) => {
-        const [x, y, z] = it.p;
+        let [x, y, z] = it.p;
+        if (mix.on) {
+          const u = ease(Math.max(0, Math.min(1, (mix.t - it.lag) / (1 - 0.3))));
+          x = it.p0[0] + (it.p1[0] - it.p0[0]) * u; y = it.p0[1] + (it.p1[1] - it.p0[1]) * u; z = it.p0[2] + (it.p1[2] - it.p0[2]) * u;
+        }
         return [M[0] * x + M[1] * y + M[2] * z, M[3] * x + M[4] * y + M[5] * z, M[6] * x + M[7] * y + M[8] * z];
       });
       let fi = 0;
@@ -386,21 +387,21 @@
       }
       rot(vx + sx, vy + sy);
       // 멈춰서 메인으로 놓였을 때만 크게: 움직이는 동안엔 0으로 돌아감
-      focus += ((!drag && !mix.phase && Math.hypot(vx, vy) < 0.015 ? 1 : 0) - focus) * 0.12;
+      focus += ((!drag && !mix.on && Math.hypot(vx, vy) < 0.015 ? 1 : 0) - focus) * (mix.on ? 0.3 : 0.12);
+      // 숨쉬기: 0→1→0 (셔플 가운데에서 가장 오므라듦)
+      const breath = mix.on ? Math.sin(Math.PI * mix.t) : 0;
       intro = Math.min(1, intro + 0.014);
 
       // 3) 그리기: 나머지는 원래 크기 그대로, 메인 한 장만 무대 절반 크기까지 키움
       items.forEach((it, i) => {
         const [X, Y, Z] = P[i];
         const s = 1.7 / (1.7 - Z);
-        it.b += ((i === fi ? focus : 0) - it.b) * 0.15;
+        it.b += ((i === fi ? focus : 0) - it.b) * (mix.on ? 0.3 : 0.15);
         // 화면에 보일 폭: 평소엔 원근 크기, 메인이 되면 it.big까지 (축소 배율 = 보일 폭 / 실제 폭)
         const small = base * it.s * s;
         const shown = small + (it.big - small) * Math.max(0, it.b);
         const k = reduce ? 1 : back(Math.max(0, Math.min(1, (intro - it.d * 0.5) / 0.5)));
-        // 셔플 중 퍼짐 정도: 모일 땐 1→0, 펼칠 땐 카드마다 시차를 두고 0→1(살짝 넘쳤다 돌아옴)
-        const f = mix.phase === "in" ? 1 - mix.t : mix.phase === "out" ? back(Math.max(0, Math.min(1, (mix.t - it.d * 0.4) / 0.6))) : 1;
-        const g = 0.35 + 0.65 * Math.min(1, f);
+        const f = 1 - 0.35 * breath, g = 1 - 0.25 * breath;
         it.el.style.transform = `translate3d(${W / 2 + X * RX * s * (1 - it.b) * f}px, ${H / 2 + Y * RY * s * (1 - it.b) * f}px, 0) scale(${(shown / it.big) * k * g}) translate(-50%, -50%)`;
         it.el.style.zIndex = 1000 + Math.round(Z * 500) + (it.b > 0.02 ? 2000 : 0);
         it.el.style.opacity = it.b > 0.02 ? 1 : 0.55 + 0.45 * ((Z + 1) / 2);
