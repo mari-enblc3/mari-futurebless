@@ -95,8 +95,9 @@
     : `<img src="${src(m)}" alt="" loading="lazy" decoding="async">`;
   // 2단 그리드에서 짝 없이 혼자 남는 세로 이미지(묶음 끝이거나 바로 다음이 가로)는 가운데 정렬.
   // "three" 묶음은 태블릿부터 3단 — 줄 끝에 1~2장 남으면 그것도 가운데로 (o3a: 한 장, o3b: 두 장 중 첫 장)
+  // "two" 묶음은 가로 이미지도 한 줄을 다 쓰지 않고 2장씩
   function galleryGroup(v, kind) {
-    const wide = v.map((m) => m[2] > m[3]);
+    const wide = v.map((m) => kind !== "two" && m[2] > m[3]);
     const cls = wide.map((w) => (w ? ["wide"] : []));
     const runs = [[]];
     v.forEach((m, k) => (wide[k] ? runs.push([]) : runs.at(-1).push(k)));
