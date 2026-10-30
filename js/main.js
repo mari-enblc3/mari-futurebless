@@ -66,7 +66,7 @@
   function card(p, i, n) {
     return `
       <a class="card" href="project.html?p=${p.slug}" style="--ar:${ar(p.cover)}" data-slug="${p.slug}" data-cursor="view">
-        <div class="card__media"><img src="${src(p.cover, 2000)}" alt="${esc(p.title)}" decoding="async"></div>
+        <div class="card__media">${p.mcover ? `<picture><source media="(max-width: 767px)" srcset="${src(p.mcover, 2000)}">` : ""}<img src="${src(p.cover, 2000)}" alt="${esc(p.title)}" decoding="async">${p.mcover ? "</picture>" : ""}</div>
         <span class="card__no">${pad2(i + 1)} / ${pad2(n)}</span>
         <div class="card__info">
           <h3 class="card__title">${esc(p.title)}${p.wip ? ` <em class="wip">(WIP)</em>` : ""}</h3>

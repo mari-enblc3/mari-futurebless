@@ -1,5 +1,6 @@
 // 사이트 콘텐츠. 작업 추가·수정은 이 파일만 고치면 됩니다.
 // 이미지: [cargo hash, 원본 파일명, 원본 너비, 원본 높이] — 파일은 assets/img/{hash}.jpg (썸네일은 assets/img/sm/)
+// Official 카드: cover = 웹용 16:9, mcover(선택) = 모바일용 4:5. mcover가 없으면 모바일에서 cover 가운데를 4:5로 잘라 보여줌
 window.SITE = {
   name: "Jeong A Mari Lee",
   studio: "Future Bless®",

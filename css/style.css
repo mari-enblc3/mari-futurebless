@@ -403,8 +403,9 @@ html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(roo
   .work { height: auto; }
   .work__pin { padding: 60px 0 0; }
   .work__viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-  .work__track { height: 62svh; }
-  .card { scroll-snap-align: center; --card-max: 86vw; height: 100%; }
+  .work__track { height: auto; }
+  /* 모바일 카드는 4:5 고정 (모바일용 mcover가 있으면 그 이미지, 없으면 cover 가운데 크롭) */
+  .card { scroll-snap-align: center; height: auto; width: min(86vw, 62svh * 0.8); max-width: none; aspect-ratio: 4 / 5; }
   .card__info { flex-direction: column; align-items: flex-start; }
   .tags { justify-content: flex-start; }
   .spec__grid { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
