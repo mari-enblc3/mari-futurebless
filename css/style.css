@@ -160,7 +160,9 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .work__viewport { flex: 1; min-height: 0; overflow: hidden; }
 .work__track { display: flex; gap: 14px; height: 100%; width: max-content; padding: 0 var(--pad); will-change: transform; }
 .card {
-  position: relative; flex: 0 0 auto; height: 100%; aspect-ratio: var(--ar); max-width: 82vw;
+  /* 가로로 긴 커버는 폭 제한(--card-max)에 걸리면 높이를 줄여 원본 구도가 잘리지 않게 */
+  --card-max: 82vw;
+  position: relative; flex: 0 0 auto; align-self: center; height: min(100%, calc(var(--card-max) / var(--ar))); aspect-ratio: var(--ar); max-width: var(--card-max);
   border-radius: 18px; overflow: hidden; background: var(--card); isolation: isolate; transform-origin: 50% 60%;
 }
 .card__media { position: absolute; inset: 0; overflow: hidden; }
@@ -402,7 +404,7 @@ html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(roo
   .work__pin { padding: 60px 0 0; }
   .work__viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .work__track { height: 62svh; }
-  .card { scroll-snap-align: center; max-width: 86vw; }
+  .card { scroll-snap-align: center; --card-max: 86vw; height: 100%; }
   .card__info { flex-direction: column; align-items: flex-start; }
   .tags { justify-content: flex-start; }
   .spec__grid { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
