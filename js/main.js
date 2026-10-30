@@ -10,6 +10,8 @@
   if (!motion) root.classList.remove("js");
 
   const esc = (s = "") => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  // 제목 표기: 콜라보 ×는 가는 글리프로 바꿔 끼움(본문 폰트의 ×는 굵고 위로 떠 보임)
+  const ttl = (s) => esc(s).replace(/×/g, '<span class="x">×</span>');
   // 이미지는 로컬(assets/img): 큰 화면용 2000px, 목록·갤러리용 900px 썸네일(sm)
   const src = (m, w = 1600) => (w <= 900 ? `assets/img/sm/${m[0]}.jpg` : `assets/img/${m[0]}.jpg`);
   const ar = (m) => (m[2] / m[3]).toFixed(4);
@@ -69,7 +71,7 @@
         <div class="card__media">${p.mcover ? `<picture><source media="(max-width: 767px)" srcset="${src(p.mcover, 2000)}">` : ""}<img src="${src(p.cover, 2000)}" alt="${esc(p.title)}" decoding="async">${p.mcover ? "</picture>" : ""}</div>
         <span class="card__no">${pad2(i + 1)} / ${pad2(n)}</span>
         <div class="card__info">
-          <h3 class="card__title">${esc(p.title)}${p.wip ? ` <em class="wip">(WIP)</em>` : ""}</h3>
+          <h3 class="card__title">${ttl(p.title)}${p.wip ? ` <em class="wip">(WIP)</em>` : ""}</h3>
           <div class="tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
         </div>
       </a>`;
@@ -79,7 +81,7 @@
     return `
       <a class="tile" href="project.html?p=${p.slug}" data-slug="${p.slug}" data-cursor="view">
         <div class="tile__media" style="--ar:${ar(p.cover)}"><img src="${src(p.cover, 900)}" alt="${esc(p.title)}" loading="lazy" decoding="async"></div>
-        <div class="tile__cap"><span>${esc(p.title)}</span><span class="label">${prefix}—${pad2(i + 1)}</span></div>
+        <div class="tile__cap"><span>${ttl(p.title)}</span><span class="label">${prefix}—${pad2(i + 1)}</span></div>
       </a>`;
   }
 
@@ -230,7 +232,7 @@
     $("#app").innerHTML = `
       <section class="proj__head">
         <div class="proj__top label"><a class="proj__close" href="index.html#${back}" data-magnetic>← Close</a><span>${p.group} — ${pad2(i + 1)} / ${pad2(list.length)}</span></div>
-        <h1 class="proj__title" data-split="intro">${esc(p.title)}</h1>
+        <h1 class="proj__title" data-split="intro">${ttl(p.title)}</h1>
         <div class="proj__info" data-intro>
           <div><span class="label">Client</span><p>${esc(p.client || "Self-initiated")}</p></div>
           <div><span class="label">Date</span><p>${esc(pg?.date || p.year || "—")}</p></div>
@@ -246,7 +248,7 @@
       ${p.wip ? `<p class="soon">Work in progress.</p>` : ""}
       <a class="next" href="project.html?p=${next.slug}" data-cursor="view" data-cursor-label="Next">
         <span class="label">Next project</span>
-        <span class="next__title">${esc(next.title)}</span>
+        <span class="next__title">${ttl(next.title)}</span>
         <span class="next__img" style="--ar:${ar(next.cover)}"><img src="${src(next.cover, 800)}" alt=""></span>
       </a>`;
   }
@@ -757,7 +759,41 @@
         counter.textContent = `${pad2(Math.round(p * (n - 1)) + 1)} / ${pad2(n)}`;
       };
       vp.addEventListener("scroll", onScroll, { passive: true });
-      return () => vp.removeEventListener("scroll", onScroll);
+      onScroll();
+      // 마우스로 보는 좁은 화면: 카드 줄을 끌어서 넘김 (끄는 동안은 스냅을 끄고, 놓으면 가까운 카드에 붙음)
+      let drag = null, moved = false;
+      const down = (e) => {
+        if (e.pointerType !== "mouse" || e.button !== 0) return;
+        drag = { x: e.clientX, left: vp.scrollLeft };
+        moved = false;
+      };
+      const move = (e) => {
+        if (!drag) return;
+        const dx = e.clientX - drag.x;
+        if (!moved && Math.abs(dx) < 5) return;
+        if (!moved) { moved = true; vp.classList.add("is-dragging"); }
+        vp.scrollLeft = drag.left - dx;
+      };
+      const up = () => {
+        if (!drag) return;
+        drag = null;
+        vp.classList.remove("is-dragging");
+      };
+      const click = (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } };
+      const noDrag = (e) => e.preventDefault();
+      vp.addEventListener("pointerdown", down);
+      addEventListener("pointermove", move);
+      addEventListener("pointerup", up);
+      vp.addEventListener("click", click, true);
+      vp.addEventListener("dragstart", noDrag);
+      return () => {
+        vp.removeEventListener("scroll", onScroll);
+        vp.removeEventListener("pointerdown", down);
+        removeEventListener("pointermove", move);
+        removeEventListener("pointerup", up);
+        vp.removeEventListener("click", click, true);
+        vp.removeEventListener("dragstart", noDrag);
+      };
     });
     // 섹션에 들어올 때 카드들이 아래에서 올라옴
     gsap.from(".card", { yPercent: 18, opacity: 0, duration: 1.4, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: ".work", start: "top 75%", once: true } });

@@ -21,7 +21,7 @@ window.SITE = {
   // About: 스튜디오 문장 → 설립자 배경 → 작업 방식(Logical Humanities Aesthetic)
   about: ["A creative\u00a0direction\u00a0studio", "where fashion, music and beauty meet the\u00a0brand\u00a0—", "held\u00a0to commercial\u00a0standards, open to experiment."],
   // 문장마다 줄을 바꿈
-  aboutBody: ["Founded by Jeong A Mari Lee, Future Bless brings a critical lens shaped by contemporary\u00a0art and aesthetics (Intermedia Art, Kaywon University of Art & Design) to commercial\u00a0culture.", "We plan and direct work end\u00a0to\u00a0end, using AI\u00a0tools and systems as deliberate instruments for more experimental, self-directed results."],
+  aboutBody: ["Founded by Jeong A Mari Lee, Future Bless brings a critical lens shaped by contemporary\u00a0art and aesthetics (Intermedia Art, Kaywon University of Art & Design) to commercial\u00a0culture.", "We plan and direct work end\u00a0to\u00a0end, using AI\u00a0tools and systems as deliberate instruments for more experimental, self\u2011directed results."],
   method: {
     title: "Logical Humanities Aesthetic",
     intro: "A three-layered framework behind every project.",
@@ -64,7 +64,7 @@ window.SITE = {
       cover: ["J3619411581029480620398945260216", "treed-thumb.jpg", 2000, 1118], mcover: ["D3939763765955943807194069238683", "treed-thumb-mobile.jpg", 894, 1118],
     },
     {
-      slug: "treed-2-0", title: "Treed 2.0", client: "Treeside Inc.", year: "2026", wip: true,
+      slug: "treed-2-0", title: "Treed 2.0", client: "Treeside Inc.", year: "2026",
       tags: ["Brand eXperience", "Digital Content"],
       cover: ["N3982154450609949314665922956998", "treed-2.0-thumb.jpg", 2000, 1125], mcover: ["M3256637821505092648972091170048", "treed-2.0-thumb-mobile.jpg", 894, 1117],
     },

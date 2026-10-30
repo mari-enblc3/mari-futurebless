@@ -179,6 +179,8 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 }
 .card__no { position: absolute; top: 16px; left: 18px; z-index: 2; color: #fff; font-size: calc(13 * var(--u)); mix-blend-mode: difference; }
 .card__info { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 2; color: #fff; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+/* 콜라보 ×: 가는 Pretendard 글리프 */
+.x { font-family: "Pretendard Variable", Pretendard, sans-serif; font-weight: 300; }
 .card__title { margin: 0; font-size: var(--fs-card); font-weight: 400; letter-spacing: -0.035em; line-height: 1.1; }
 .card__title .wip { color: rgba(255, 255, 255, 0.7); }
 .tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
@@ -395,14 +397,17 @@ html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(roo
 
 /* ---------- responsive ---------- */
 @media (max-width: 767px) {
+  /* 모바일 작은 글자·본문은 1.2배 (13px → 15.6px) */
+  :root { --u: 1.2px; }
   .hero__meta, .about__cols, .ftr__grid { grid-template-columns: repeat(2, 1fr); }
-  .hero__meta { justify-content: stretch; }
+  .hero__meta { justify-content: stretch; grid-template-columns: 1fr auto; }
   .hero__meta > div:nth-child(-n + 2) { grid-column: 1 / -1; }
   .proj__info { grid-template-columns: repeat(2, 1fr); }
   .proj__desc { grid-column: 1 / -1; }
   .work { height: auto; }
   .work__pin { padding: 60px 0 0; }
   .work__viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .work__viewport.is-dragging { scroll-snap-type: none; user-select: none; }
   .work__track { height: auto; }
   /* 모바일 카드는 4:5 고정 (모바일용 mcover가 있으면 그 이미지, 없으면 cover 가운데 크롭) */
   .card { scroll-snap-align: center; height: auto; width: min(86vw, 62svh * 0.8); max-width: none; aspect-ratio: 4 / 5; }
@@ -421,10 +426,11 @@ html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(roo
   .method__steps { grid-template-columns: 1fr; }
   .method__outro { grid-column: 1; }
   .next__img { display: none; }
-  .gal__stage { height: 74svh; }
+  /* 머리말을 화면 맨 위에 두면 무대가 아래 메뉴 바로 위까지 차서, 구가 머리말과 메뉴 사이 한가운데에 옴 */
+  .gal__stage { height: calc(100svh - 170px); }
   /* 메뉴 6개가 화면 안에 들어오도록: 독을 화면 폭에 맞추고 칸을 균등 분배 */
   .dock { width: calc(100% - 16px); bottom: 12px; }
-  .dock a { flex: 1; padding: 8px 0; font-size: calc(12 * var(--u)); text-align: center; }
+  .dock a { flex: 1; padding: 8px 0; font-size: 12.5px; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
