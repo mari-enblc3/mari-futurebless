@@ -745,7 +745,6 @@
         },
       });
       $$(".card").forEach((card, i) => {
-        gsap.fromTo($("img", card), { xPercent: -4 }, { xPercent: 4, ease: "none", scrollTrigger: { trigger: card, containerAnimation: tween, start: "left right", end: "right left", scrub: true } });
         if (i === 0) return;
         gsap.fromTo(card, { scale: 0.82, rotate: 2.5, borderRadius: 40 }, { scale: 1, rotate: 0, borderRadius: 18, ease: "none", scrollTrigger: { trigger: card, containerAnimation: tween, start: "left right", end: "left 35%", scrub: true } });
       });
