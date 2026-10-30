@@ -179,8 +179,6 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 }
 .card__no { position: absolute; top: 16px; left: 18px; z-index: 2; color: #fff; font-size: calc(13 * var(--u)); mix-blend-mode: difference; }
 .card__info { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 2; color: #fff; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
-/* 콜라보 ×: 가는 Pretendard 글리프 */
-.x { font-family: "Pretendard Variable", Pretendard, sans-serif; font-weight: 300; }
 .card__title { margin: 0; font-size: var(--fs-card); font-weight: 400; letter-spacing: -0.035em; line-height: 1.1; }
 .card__title .wip { color: rgba(255, 255, 255, 0.7); }
 .tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
