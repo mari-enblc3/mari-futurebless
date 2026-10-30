@@ -43,7 +43,7 @@ window.SITE = {
       slug: "tenlab", title: "Tenlab", client: "Tenlab (for Yeonkoung Kim 김연경)", year: "2026",
       tags: ["Digital Content", "Graphic Design", "Web"],
       desc: "Digital content (all AI image generated) and graphic design for Tenlab — social campaign system and web.",
-      cover: ["D3232030490571211654190217347839", "tenlab-thumb-2.jpg", 2000, 1118],
+      cover: ["C3185212536187159300477224688056", "tenlab-thumb.jpg", 2000, 1118], mcover: ["A3173698448886429975953465162415", "tenlab-thumb-mobile.jpg", 894, 1118],
       images: [
         ["O3142507189087531291644100326994", "2tenlab_web_mb.jpg", 2995, 3744],
         ["E3142506681912749729073688196690", "tenlab_SNS_002.jpg", 4046, 5057],
@@ -61,17 +61,17 @@ window.SITE = {
     {
       slug: "treed-1-0", title: "Treed 1.0", client: "Treeside Inc.", year: "2025",
       tags: ["Brand eXperience", "Pop-up", "Creative Direction"],
-      cover: ["H3602076296817997422414449415762", "250910_Treed_pine-hand-wash.jpg", 2000, 1125],
+      cover: ["J3619411581029480620398945260216", "treed-thumb.jpg", 2000, 1118], mcover: ["D3939763765955943807194069238683", "treed-thumb-mobile.jpg", 894, 1118],
     },
     {
       slug: "treed-2-0", title: "Treed 2.0", client: "Treeside Inc.", year: "2026", wip: true,
       tags: ["Brand eXperience", "Digital Content"],
-      cover: ["L3141837190928115399122878969426", "treed-2.0.png", 4320, 5400],
+      cover: ["N3982154450609949314665922956998", "treed-2.0-thumb.jpg", 2000, 1125], mcover: ["M3256637821505092648972091170048", "treed-2.0-thumb-mobile.jpg", 894, 1117],
     },
     {
       slug: "dr-shy", title: "Dr. Shy", client: "Treeside Inc.", year: "2025",
       tags: ["Brand eXperience"],
-      cover: ["H3373061822742199248932617703258", "250616_dr.shy-dark-spot-cream.jpg", 2000, 1125],
+      cover: ["Q3782433085865665305388682940912", "dr-shy-thumb.jpg", 2000, 1118], mcover: ["R3835562905856081876565675555572", "dr-shy-thumb-mobile.jpg", 894, 1118],
     },
   ],
 
