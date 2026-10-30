@@ -42,7 +42,7 @@ window.SITE = {
       slug: "tenlab", title: "Tenlab", client: "Tenlab (for Yeonkoung Kim 김연경)", year: "2026",
       tags: ["Digital Content", "Graphic Design", "Web"],
       desc: "Digital content (all AI image generated) and graphic design for Tenlab — social campaign system and web.",
-      cover: ["E3140131422901696206467189159506", "tenlab-thumb.png", 4566, 2553],
+      cover: ["D3232030490571211654190217347839", "tenlab-thumb-2.jpg", 2000, 1118],
       images: [
         ["O3142507189087531291644100326994", "2tenlab_web_mb.jpg", 2995, 3744],
         ["E3142506681912749729073688196690", "tenlab_SNS_002.jpg", 4046, 5057],
@@ -60,7 +60,7 @@ window.SITE = {
     {
       slug: "treed-1-0", title: "Treed 1.0", client: "Treeside Inc.", year: "2025",
       tags: ["Brand eXperience", "Pop-up", "Creative Direction"],
-      cover: ["P3141831170667166247347323123282", "250910_Treed_0164-2.jpg", 6593, 5275],
+      cover: ["H3602076296817997422414449415762", "250910_Treed_pine-hand-wash.jpg", 2000, 1125],
     },
     {
       slug: "treed-2-0", title: "Treed 2.0", client: "Treeside Inc.", year: "2026", wip: true,
@@ -70,7 +70,7 @@ window.SITE = {
     {
       slug: "dr-shy", title: "Dr. Shy", client: "Treeside Inc.", year: "2025",
       tags: ["Brand eXperience"],
-      cover: ["G3142007346333335698567450834514", "250616_dr.shy-product28480_-2.jpg", 5464, 7063],
+      cover: ["H3373061822742199248932617703258", "250616_dr.shy-dark-spot-cream.jpg", 2000, 1125],
     },
   ],
 
