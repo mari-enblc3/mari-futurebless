@@ -311,7 +311,46 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .ftr__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 12vh; padding-top: 14px; border-top: 1px solid var(--line); font-size: calc(13 * var(--u)); }
 .ftr__grid p { margin: 4px 0 0; }
 .ftr__grid a:hover { color: var(--muted); }
-.ftr__bottom { display: flex; justify-content: space-between; margin-top: 10vh; font-size: calc(13 * var(--u)); color: var(--muted); }
+/* 명함: 실물(스페셜리티즈 펄 118, 923×578 비율)과 같은 배치. 은은한 진주광 + 검은 글자, 각진 모서리, 9겹 두께 */
+.biz { --w: min(310px, 60vw); position: relative; display: grid; place-items: center; min-height: max(100svh, 560px); perspective: 2200px; }
+.biz__stage { position: relative; width: var(--w); aspect-ratio: 923 / 578; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; }
+.biz__card { position: absolute; inset: 0; transform-style: preserve-3d; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; outline: none; }
+.biz__card.is-drag { cursor: grabbing; }
+.biz__face, .biz__slice { position: absolute; inset: 0; }
+.biz__slice { background: linear-gradient(180deg, #ecebe6, #d9d6cf); transform: translateZ(calc(var(--z) * var(--w) * 0.009)); }
+.biz__face {
+  overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; color: #111;
+  font-size: calc(var(--w) * 0.0398); line-height: 1.45;
+  /* 펄지: 따뜻한 흰 바탕 + 아주 고운 종이 결 + 각도에 따라 옅게 도는 진주빛 */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(125deg, #f4f2ee 0%, #f8f7f4 40%, #efede8 100%);
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+}
+.biz__face--front { transform: translateZ(calc(var(--w) * 0.0045)); text-align: center; }
+.biz__face--back { transform: rotateY(180deg) translateZ(calc(var(--w) * 0.0045)); }
+.biz__face p { position: absolute; margin: 0; white-space: nowrap; }
+.biz__face .r { margin-left: 0.12em; }
+/* 앞면: 가운데 정렬, 실물 기준 세로 위치(줄 가운데) 18% · 54.7% · 87% */
+.biz__l1, .biz__l2, .biz__l3 { left: 0; right: 0; translate: 0 -50%; }
+.biz__l1 { top: 18%; }
+.biz__l2 { top: 54.7%; }
+.biz__l3 { top: 87%; }
+/* 뒷면: 왼쪽 6.8% 기준선, 큰 로고 + 아래 두 칸(두 번째 칸은 51.6%에서 시작) */
+.biz__face h3 { position: absolute; left: 6.8%; top: 8.4%; margin: 0; font-weight: 400; font-size: calc(var(--w) * 0.119); line-height: 1.05; letter-spacing: -0.012em; }
+.biz__face h3 sup { font-size: 0.46em; vertical-align: 0.95em; margin-left: 0.1em; }
+.biz__who, .biz__reach { bottom: 8.6%; color: #2b2b2b; }
+.biz__who { left: 6.8%; }
+.biz__reach { left: 51.6%; }
+/* 진주광: 각도에 따라 아주 옅은 분홍·하늘·연두 빛과 하이라이트가 천천히 지나감 */
+.biz__shine {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; opacity: 0.55;
+  background:
+    radial-gradient(90% 70% at var(--sx, 50%) var(--sy, 50%), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(115deg, rgba(255, 214, 230, 0.55), rgba(214, 236, 255, 0.55) 35%, rgba(226, 255, 236, 0.5) 65%, rgba(255, 236, 214, 0.55)) var(--sx, 50%) 0 / 220% 100% no-repeat;
+}
+.biz__shadow { position: absolute; left: 6%; right: 6%; bottom: -12%; height: 18%; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.5), transparent); filter: blur(16px); pointer-events: none; }
+.ftr__bottom { display: flex; justify-content: space-between; margin-top: 0; font-size: calc(13 * var(--u)); color: var(--muted); }
 .ftr__bottom button { background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font-size: calc(13 * var(--u)); }
 
 /* ---------- cursor ---------- */

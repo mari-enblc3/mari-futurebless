@@ -70,9 +70,39 @@
           <div><span class="label">Based in</span><p>Seoul, Korea</p><p class="clock__t">--:--</p></div>
           <div><span class="label">Last updated</span><p>${esc(S.updated)}</p></div>
         </div>
+        ${bizMarkup()}
         <div class="ftr__bottom"><span>© ${new Date().getFullYear()} J. A. Mari Lee</span><button type="button" class="totop" data-magnetic>Back to top ↑</button></div>
       </footer>
       <div class="cursor is-out" aria-hidden="true"></div>`);
+  }
+
+  // 명함(펄지): 앞·뒷면 + 두께를 만드는 겹(slice)들. 끌면 천천히 기울고, 한 번 누르면 차분히 뒤집힘
+  function bizMarkup() {
+    const b = S.bizcard;
+    if (!b) return "";
+    const [l1, l2, mail, web] = b.front.map(esc);
+    const slices = Array.from({ length: 9 }, (_, i) => `<i class="biz__slice" style="--z:${i / 8 - 0.5}"></i>`).join("");
+    return `
+        <div class="biz">
+          <div class="biz__stage">
+            <div class="biz__shadow" aria-hidden="true"></div>
+            <div class="biz__card" role="button" tabindex="0" aria-label="Business card — press to flip" data-cursor="view" data-cursor-label="Drag">
+              ${slices}
+              <div class="biz__face biz__face--front">
+                <p class="biz__l1">${l1.replace(/®/, '<span class="r">®</span>')}<br>${l2}</p>
+                <p class="biz__l2">${mail}</p>
+                <p class="biz__l3">${web}</p>
+                <i class="biz__shine"></i>
+              </div>
+              <div class="biz__face biz__face--back">
+                <h3>Future Bless<br>Studio<sup>®</sup></h3>
+                <p class="biz__who">${esc(b.name)}<br>${esc(b.role)}</p>
+                <p class="biz__reach">${esc(b.phone)}<br>${esc(S.email)}</p>
+                <i class="biz__shine"></i>
+              </div>
+            </div>
+          </div>
+        </div>`;
   }
 
   function card(p, i, n) {
@@ -908,6 +938,84 @@
     qs.forEach((q) => q.addEventListener("change", layout));
   }
 
+  function bizCard() {
+    const card = $(".biz__card"), shadow = $(".biz__shadow");
+    if (!card) return;
+    // 기울기(rx·ry)는 목표값을 천천히 따라가기만 함(튕김 없음). 뒤집기(flip)는 따로 한 번에 차분히 돎
+    const st = { rx: 0, ry: 0, lift: 0 }, target = { rx: 0, ry: 0 };
+    const fl = { a: 0, from: 0, to: 0, t0: 0, dur: 1300 };
+    let face = 0, drag = null, hover = { x: 0, y: 0 }, t0 = performance.now(), raf = 0, seen = false;
+    const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+    const tick = (now) => {
+      const t = (now - t0) / 1000;
+      if (!drag) {
+        // 쉬는 자세: 거의 멈춘 듯 아주 느린 숨쉬기 + 마우스 쪽으로 살짝
+        target.rx = (reduce ? 0 : Math.sin(t * 0.45) * 1.5) - hover.y * 6;
+        target.ry = (reduce ? 0 : Math.sin(t * 0.32) * 2.5) + hover.x * 8;
+      }
+      const k = drag ? 0.07 : 0.035;
+      st.rx += (target.rx - st.rx) * k;
+      st.ry += (target.ry - st.ry) * k;
+      // 뒤집기: 1.3초 동안 한 번에, 중간에 아주 살짝 들렸다 내려옴
+      let p = 1;
+      if (fl.t0) {
+        p = Math.min(1, (now - fl.t0) / fl.dur);
+        fl.a = fl.from + (fl.to - fl.from) * ease(p);
+        if (p === 1) fl.t0 = 0;
+      }
+      st.lift = Math.sin(Math.PI * p) * (fl.t0 ? 1 : 0);
+      const ry = fl.a + st.ry;
+      const local = ((((ry + 180) % 360) + 360) % 360) - 180;
+      card.style.setProperty("--sx", `${50 - local * 1.2}%`);
+      card.style.setProperty("--sy", `${50 + st.rx * 2}%`);
+      card.style.transform = `translateZ(${st.lift * 24}px) rotateX(${st.rx}deg) rotateY(${ry}deg)`;
+      shadow.style.transform = `translateY(${st.lift * 10}px) scale(${1 - st.lift * 0.06})`;
+      shadow.style.opacity = 0.7 - st.lift * 0.2;
+      raf = seen ? requestAnimationFrame(tick) : 0;
+    };
+    new IntersectionObserver(([e]) => {
+      seen = e.isIntersecting;
+      if (seen && !raf) { t0 = performance.now(); raf = requestAnimationFrame(tick); }
+    }).observe(card);
+
+    const flip = () => {
+      face += 1;
+      Object.assign(fl, { from: fl.a, to: face * 180, t0: performance.now(), dur: reduce ? 1 : 1300 });
+    };
+    card.addEventListener("pointerdown", (e) => {
+      if (e.button !== 0) return;
+      drag = { x: e.clientX, y: e.clientY, rx: st.rx, ry: st.ry, at: performance.now(), moved: false };
+      try { card.setPointerCapture(e.pointerId); } catch (_) {}
+      card.classList.add("is-drag");
+    });
+    card.addEventListener("pointermove", (e) => {
+      if (!drag) {
+        if (e.pointerType === "mouse") {
+          const r = card.getBoundingClientRect();
+          hover = { x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 };
+        }
+        return;
+      }
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (Math.hypot(dx, dy) > 6) drag.moved = true;
+      // 손에 든 종이를 기울이듯: 각도는 ±28°(좌우)·±18°(위아래)까지만, 끝으로 갈수록 덜 움직임
+      const soft = (v, m) => m * Math.tanh(v / m);
+      target.ry = soft(drag.ry + dx * 0.18, 28);
+      target.rx = soft(drag.rx - dy * 0.14, 18);
+    });
+    const up = () => {
+      if (!drag) return;
+      const tap = !drag.moved && performance.now() - drag.at < 400;
+      drag = null;
+      card.classList.remove("is-drag");
+      if (tap) flip();
+    };
+    card.addEventListener("pointerup", up);
+    card.addEventListener("pointercancel", up);
+    card.addEventListener("pointerleave", () => (hover = { x: 0, y: 0 }));
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
+  }
+
   function footer() {
     gsap.from(".cta", { y: 40, opacity: 0, filter: "blur(14px)", duration: 1.4, ease: "expo.out", clearProps: "transform,opacity,filter", scrollTrigger: { trigger: ".ftr", start: "top 70%", once: true } });
   }
@@ -955,6 +1063,7 @@
   dock();
   gallery();
   specTabs();
+  bizCard();
 
   if (!motion) {
     board();
