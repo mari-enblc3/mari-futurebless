@@ -485,9 +485,9 @@ html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(roo
   .next__img { display: none; }
   /* 머리말을 화면 맨 위에 두면 무대가 아래 메뉴 바로 위까지 차서, 구가 머리말과 메뉴 사이 한가운데에 옴 */
   .gal__stage { height: calc(100svh - 170px); }
-  /* 메뉴 6개가 화면 안에 들어오도록: 독을 화면 폭에 맞추고 칸을 균등 분배 */
-  .dock { width: calc(100% - 16px); bottom: 12px; }
-  .dock a { flex: 1; padding: 8px 0; font-size: 12.5px; text-align: center; }
+  /* 메뉴 6개가 화면 안에 들어오도록: 독을 화면 폭에 맞추고, 글자 길이만큼 칸을 잡은 뒤 남는 폭을 똑같이 나눔 → 글자 사이 간격이 고르게 */
+  .dock { width: calc(100% - 16px); bottom: 12px; gap: 0; }
+  .dock a { flex: 1 1 auto; padding: 8px 7px; font-size: 12.5px; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
