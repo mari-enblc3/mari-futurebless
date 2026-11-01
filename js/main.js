@@ -24,11 +24,23 @@
 
   /* ---------------- render ---------------- */
 
+  // 로딩: 카메라 모드 다이얼. 눈금과 모드가 한 바퀴 판에 붙어 돌고, 맨 위 바늘에 온 모드가 선택됨
+  const DIAL = ["AI", "Design", "Creative", "Strategy", "Branding", "P", "S", "A", "M", "C1", "C2"];
+  function dialMarkup() {
+    const ticks = Array.from({ length: 90 }, (_, i) => `<i class="dial__tick" style="--a:${i * 4}deg"></i>`).join("");
+    const opts = DIAL.map((t, i) => {
+      const kind = t.length === 1 ? "dot" : /^C\d$/.test(t) ? "txt" : "pill";
+      return `<span class="dial__opt"><b class="dial__${kind}">${t}</b></span>`;
+    }).join("");
+    return ticks + opts;
+  }
+
   function chrome() {
     document.body.insertAdjacentHTML("afterbegin", `
       <div class="loader" aria-hidden="true">
         <div class="loader__top"><span>${esc(S.studio)}</span><span>Seoul</span></div>
-        <div class="loader__num">000</div>
+        <div class="dial"><div class="dial__wheel">${dialMarkup()}</div><i class="dial__needle"></i></div>
+        <div class="loader__top"></div>
       </div>
       <header class="hdr">
         <a class="brand" href="${home || "#top"}" data-nav>${esc(S.name)}<small>${esc(S.studio)}</small></a>
@@ -41,11 +53,11 @@
       </header>
       <nav class="dock" aria-label="Primary">
         <span class="dock__ind"></span>
+        <a href="${home}#gallery" data-sec="gallery" data-nav>Intro</a>
         <a href="${home}#official" data-sec="official" data-nav>Official</a>
         <a href="${home}#speculative" data-sec="speculative" data-nav>Speculative</a>
         <a href="${home}#index" data-sec="index" data-nav>Index</a>
         <a href="${home}#about" data-sec="about" data-nav>About</a>
-        <a href="${home}#gallery" data-sec="gallery" data-nav>Gallery</a>
         <a href="${home}#contact" data-sec="contact" data-nav>Contact</a>
       </nav>`);
     document.body.insertAdjacentHTML("beforeend", `
@@ -146,6 +158,18 @@
         <h2 class="mark" role="img" aria-label="Future Bless Studio®"></h2>
       </section>
 
+      <section class="gal" id="gallery">
+        <div class="sec-head">
+          <span class="gal__title">Gallery — drag to spin
+            <button class="gal__shuffle" type="button" aria-label="Shuffle gallery" data-magnetic>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4.5h2.5c3.5 0 5.5 7 9 7H15M13 9.5l2 2-2 2M1 11.5h2.5c1.3 0 2.4-1 3.3-2.3M9.2 6.8c.9-1.3 2-2.3 3.3-2.3H15M13 2.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </span>
+          <span class="label">${galleryPool().length} images</span>
+        </div>
+        <div class="gal__stage" data-cursor="view" data-cursor-label="Drag"></div>
+      </section>
+
       <div class="sec-intro" id="official">
         <h2 class="display" data-drift>Official<span class="display__n">(${pad2(S.official.length)})</span></h2>
       </div>
@@ -196,18 +220,6 @@
             <li class="sub">Vision Agency by Visla<br>Team member, 2022</li>
           </ul></div>
         </div>
-      </section>
-
-      <section class="gal" id="gallery">
-        <div class="sec-head">
-          <span class="gal__title">Gallery — drag to spin
-            <button class="gal__shuffle" type="button" aria-label="Shuffle gallery" data-magnetic>
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4.5h2.5c3.5 0 5.5 7 9 7H15M13 9.5l2 2-2 2M1 11.5h2.5c1.3 0 2.4-1 3.3-2.3M9.2 6.8c.9-1.3 2-2.3 3.3-2.3H15M13 2.5l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </span>
-          <span class="label">${galleryPool().length} images</span>
-        </div>
-        <div class="gal__stage" data-cursor="view" data-cursor-label="Drag"></div>
       </section>`;
   }
 
@@ -704,9 +716,30 @@
     let seen = false;
     try { seen = !!sessionStorage.getItem("seen"); sessionStorage.setItem("seen", "1"); } catch (_) {}
     if (!seen) {
-      const num = $(".loader__num"), o = { v: 0 };
-      tl.to(o, { v: 100, duration: 1.8, ease: "power3.inOut", onUpdate: () => (num.textContent = String(Math.round(o.v)).padStart(3, "0")) })
-        .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" })
+      // 마지막 모드(C2)에서 시작해 한 칸씩 딸깍 돌아 가운데 Branding에 멈춤(양옆으로 모드가 고르게 펼쳐짐). 처음엔 빠르게, 끝으로 갈수록 천천히
+      const wheel = $(".dial__wheel"), opts = $$(".dial__opt");
+      const pick = (k) => opts.forEach((o, i) => o.classList.toggle("is-on", i === k));
+      // 글자 폭을 재서 모드 사이 간격을 정함 (긴 단어끼리 겹치지 않게): 호 길이 = 두 모드 반폭 + 여백
+      const D = wheel.offsetWidth, gap = parseFloat(getComputedStyle(wheel).fontSize) * 0.7;
+      const ang = [];
+      opts.forEach((o, i) => {
+        const b = o.firstElementChild, r = D * 0.37 - b.offsetHeight / 2;
+        const prev = opts[i - 1]?.firstElementChild;
+        ang[i] = i ? ang[i - 1] + (((prev.offsetWidth + b.offsetWidth) / 2 + gap) / r) * (180 / Math.PI) : 0;
+        o.style.setProperty("--a", ang[i] + "deg");
+      });
+      const last = DIAL.length - 1, end = DIAL.indexOf("Branding");
+      gsap.set(wheel, { rotate: -ang[last] });
+      pick(last);
+      for (let k = last - 1; k >= end; k--) {
+        const t = (last - 1 - k) / (last - 1 - end);
+        tl.to(wheel, { rotate: -ang[k], duration: 0.16 + 0.3 * t * t, ease: "back.out(2.2)", onStart: () => pick(k) }, k === last - 1 ? 0.35 : ">-0.02");
+      }
+      // Branding부터는 카테고리(Strategy·Creative·Design·AI)를 한 칸씩 천천히 넘기며 바늘에 닿을 때마다 강조
+      for (let k = end - 1; k >= 0; k--) {
+        tl.to(wheel, { rotate: -ang[k], duration: 0.62, ease: "power3.inOut", onUpdate() { if (this.progress() > 0.5) pick(k); } }, k === end - 1 ? "+=0.4" : "+=0.22");
+      }
+      tl.to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" }, "+=0.5")
         .set(loader, { display: "none" });
     } else loader.remove();
 

@@ -75,12 +75,30 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 
 /* ---------- loader ---------- */
 .loader {
-  position: fixed; inset: 0; z-index: 300; background: var(--fg); color: var(--bg);
-  display: flex; flex-direction: column; justify-content: space-between; padding: var(--pad);
+  position: fixed; inset: 0; z-index: 300; background: #0a0a0a; color: #f2f1ed;
+  display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: var(--pad);
   clip-path: inset(0 0 0 0);
 }
-.loader__top { display: flex; justify-content: space-between; font-size: calc(13 * var(--u)); }
-.loader__num { font-size: clamp(96px, 22vw, 360px); line-height: 0.9; letter-spacing: -0.06em; font-variant-numeric: tabular-nums; }
+.loader__top { align-self: stretch; display: flex; justify-content: space-between; min-height: 1.25em; font-size: calc(13 * var(--u)); }
+/* 모드 다이얼: 판(--d) 위쪽 반만 보이고 아래는 흐려짐. 바늘은 고정, 판이 돎 */
+.dial {
+  --d: clamp(320px, 78vw, 110vh);
+  position: relative; width: var(--d); height: calc(var(--d) * 0.54); overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent);
+  font-size: max(11px, calc(var(--d) * 0.026)); font-weight: 500; letter-spacing: -0.01em;
+}
+.dial__wheel { position: absolute; left: 0; top: 0; width: var(--d); height: var(--d); will-change: transform; }
+.dial__tick, .dial__opt { position: absolute; inset: 0; rotate: var(--a); }
+.dial__tick::before { content: ""; position: absolute; left: 50%; top: 2%; width: 1.5px; height: 3.2%; translate: -50% 0; background: currentColor; opacity: 0.85; }
+.dial__opt b { position: absolute; left: 50%; top: 13%; translate: -50% 0; display: grid; place-items: center; white-space: nowrap; font-weight: 500; line-height: 1; transition: background 0.35s, color 0.35s, scale 0.45s var(--ease); }
+.dial__pill { padding: 0.42em 0.8em; border: 1.5px solid currentColor; border-radius: 999px; }
+.dial__dot { width: 2.1em; height: 2.1em; border-radius: 50%; background: currentColor; }
+.dial__dot, .dial__pill { color: inherit; }
+.dial__dot { color: #0a0a0a; background: #f2f1ed; }
+.dial__txt { padding: 0.42em 0.2em; }
+.dial__opt.is-on .dial__pill { background: #f2f1ed; color: #0a0a0a; }
+.dial__opt.is-on b { scale: 1.12; }
+.dial__needle { position: absolute; left: 50%; top: 0; width: 2px; height: 7.5%; translate: -50% 0; background: currentColor; }
 
 /* ---------- header ---------- */
 .hdr {
@@ -406,6 +424,7 @@ html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(roo
   .work__pin { padding: 60px 0 0; }
   .work__viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .work__viewport.is-dragging { scroll-snap-type: none; user-select: none; }
+  .dial { --d: 96vw; }
   .work__track { height: auto; }
   /* 모바일 카드는 4:5 고정 (모바일용 mcover가 있으면 그 이미지, 없으면 cover 가운데 크롭) */
   .card { scroll-snap-align: center; height: auto; width: min(86vw, 62svh * 0.8); max-width: none; aspect-ratio: 4 / 5; }
