@@ -435,7 +435,7 @@ html.theme-vt::view-transition-old(root), html.theme-vt::view-transition-new(roo
   .spec__col { display: contents; }
   .yr { grid-template-columns: 1fr; gap: 0; }
   .yr__label { position: static; padding-bottom: 4px; }
-  .row { grid-template-columns: 3.6em 1fr; }
+  .row:not(.row--note) { grid-template-columns: 3.6em 1fr; }
   .row .c { grid-column: 2; text-align: left; margin-top: -10px; }
   .gallery { grid-template-columns: 1fr; }
   .gallery .wide { grid-column: auto; }
