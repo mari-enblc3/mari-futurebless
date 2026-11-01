@@ -35,11 +35,6 @@ window.SITE = {
 
   official: [
     {
-      slug: "wonder-dogs-tenlab", title: "Wonder Dogs x Tenlab", client: "Tenlab", year: "2026",
-      tags: ["Key Visual", "Digital Content"],
-      cover: ["N3183778800670285480756663268946", "tenlab_kv112-2.jpg", 4610, 2603],
-    },
-    {
       slug: "tenlab", title: "Tenlab", client: "Tenlab (for Yeonkoung Kim 김연경)", year: "2026",
       tags: ["Digital Content", "Graphic Design", "Web"],
       desc: "Digital content (all AI image generated) and graphic design for Tenlab — social campaign system and web.",
@@ -57,6 +52,11 @@ window.SITE = {
         ["S3142505852584029663239666644562", "tenlab_sns_2609w1_7.jpg", 1620, 2025],
         ["K3142505904640741439248021304914", "tenlab_sns_2609w1_9.jpg", 1620, 2025],
       ],
+    },
+    {
+      slug: "wonder-dogs-tenlab", title: "Wonder Dogs x Tenlab", client: "Tenlab", year: "2026",
+      tags: ["Key Visual", "Digital Content"],
+      cover: ["N3183778800670285480756663268946", "tenlab_kv112-2.jpg", 4610, 2603],
     },
     {
       slug: "treed-1-0", title: "Treed 1.0", client: "Treeside Inc.", year: "2025",
