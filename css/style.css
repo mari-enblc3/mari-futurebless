@@ -312,7 +312,7 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .ftr__grid p { margin: 4px 0 0; }
 .ftr__grid a:hover { color: var(--muted); }
 /* 명함: 실물(스페셜리티즈 펄 118, 923×578 비율)과 같은 배치. 은은한 진주광 + 검은 글자, 각진 모서리, 9겹 두께 */
-.biz { --w: min(310px, 60vw); position: relative; display: grid; place-items: center; min-height: max(100svh, 560px); perspective: 2200px; }
+.biz { --w: min(max(19vw, 340px), 70vw, 520px); position: relative; display: grid; place-items: center; min-height: max(100svh, 560px); perspective: 2200px; }
 .biz__stage { position: relative; width: var(--w); aspect-ratio: 923 / 578; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; }
 .biz__card { position: absolute; inset: 0; transform-style: preserve-3d; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; outline: none; }
 .biz__card.is-drag { cursor: grabbing; }
