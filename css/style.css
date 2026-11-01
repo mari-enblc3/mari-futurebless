@@ -275,6 +275,7 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .about__cols h3 { margin: 0 0 12px; font-size: calc(13 * var(--u)); font-weight: 400; color: var(--muted); }
 .about__cols ul { list-style: none; margin: 0 0 20px; padding: 0; }
 .about__cols li { padding: 2px 0; }
+.about__cols li.label { font-size: inherit; }
 .about__cols li.sub { color: var(--muted); margin-top: 10px; }
 .about__cols a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.5s var(--ease); }
 .about__cols a:hover { background-size: 100% 1px; }

@@ -240,7 +240,7 @@
           <p class="method__outro">${esc(S.method.outro)}</p>
         </div>` : ""}
         <div class="about__cols" data-reveal>
-          <div><h3>Services</h3>${S.services.map(([g, l]) => `<ul><li>${g}</li>${l.map((x) => `<li class="label" style="font-size:14px">${esc(x)}</li>`).join("")}</ul>`).join("")}</div>
+          <div><h3>Services</h3>${S.services.map(([g, l]) => `<ul><li>${g}</li>${l.map((x) => `<li class="label">${esc(x)}</li>`).join("")}</ul>`).join("")}</div>
           <div><h3>Selected clients</h3><ul>${S.clients.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></div>
           <div><h3>Featured</h3><ul>${S.features.map(([n, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a></li>`).join("")}</ul></div>
         </div>
