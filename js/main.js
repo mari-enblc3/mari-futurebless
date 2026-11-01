@@ -10,8 +10,8 @@
   if (!motion) root.classList.remove("js");
 
   const esc = (s = "") => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-  // 이미지는 로컬(assets/img): 큰 화면용 2000px, 목록·갤러리용 900px 썸네일(sm)
-  const src = (m, w = 1600) => (w <= 900 ? `assets/img/sm/${m[0]}.jpg` : `assets/img/${m[0]}.jpg`);
+  // 이미지는 로컬(assets/img): 큰 화면용 2000px, 목록용 900px(sm), 갤러리 구의 작은 카드용 360px(xs)
+  const src = (m, w = 1600) => (w <= 500 ? `assets/img/xs/${m[0]}.jpg` : w <= 900 ? `assets/img/sm/${m[0]}.jpg` : `assets/img/${m[0]}.jpg`);
   const ar = (m) => (m[2] / m[3]).toFixed(4);
   const pad2 = (n) => String(n).padStart(2, "0");
   const all = [
@@ -445,7 +445,7 @@
         if (!it.hi && it.b > 0.2) {
           it.hi = true;
           const im = new Image();
-          im.src = src(it.m, 1400);
+          im.src = src(it.m, 900); // 메인 카드는 화면의 절반 이하 → 900px이면 선명
           im.decode().then(() => (it.img.src = im.src)).catch(() => {});
         }
       });
