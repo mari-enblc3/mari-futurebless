@@ -14,7 +14,7 @@ window.SITE = {
   // TODO(카피): 임시 문구. 본인 말투로 바꿔주세요.
   // 히어로: 마지막 슬라이드 키워드(한 줄씩) + 스튜디오 소개 한 줄
   hero: {
-    lead: ["Interdisciplinary,", "convergent,", "ultimate."],
+    lead: ["Interdisciplinary,", "Convergent,", "Ultimate."],
     // 줄 단위 배열: 태블릿 이상에서는 이 단위로 줄바꿈 고정, 모바일은 자연스럽게 흐름
     sub: ["Future Bless is\u00a0a creative\u00a0direction\u00a0studio", "building brands across fashion, music\u00a0and\u00a0beauty\u00a0—", "from first logic to final image."],
   },
@@ -66,7 +66,7 @@ window.SITE = {
     {
       slug: "treed-2-0", title: "Treed 2.0", client: "Treeside Inc.", year: "2026",
       tags: ["Brand eXperience", "Digital Content"],
-      cover: ["N3982154450609949314665922956998", "treed-2.0-thumb.jpg", 2000, 1125], mcover: ["M3256637821505092648972091170048", "treed-2.0-thumb-mobile.jpg", 894, 1117],
+      cover: ["C3775832952992669768156170068536", "treed-2.0-thumb.jpg", 2000, 1125], mcover: ["M3256637821505092648972091170048", "treed-2.0-thumb-mobile.jpg", 894, 1117],
     },
     {
       slug: "dr-shy", title: "Dr. Shy", client: "Treeside Inc.", year: "2025",
@@ -301,7 +301,7 @@ window.SITE = {
     ["Strategy", ["Brand Strategy", "Product Strategy", "Deck Design"]],
     ["Marketing", ["BTL", "PR", "Social Media Management"]],
   ],
-  clients: ["Beauty of Joseon", "LIONAT (for Yeonkoung Kim 김연경)", "SM Entertainment", "STARSHIP Entertainment", "POST ARCHIVE FACTION", "Treeside Inc."],
+  clients: ["Beauty of Joseon", "LIONAT (for Yeonkoung\u00a0Kim 김연경)"],
   features: [
     ["Notefolio", "https://www.instagram.com/p/DZW42mVE00w/?img_index=1"],
     ["Glowup Magazine", "https://www.instagram.com/p/DVagSiXAdct/"],

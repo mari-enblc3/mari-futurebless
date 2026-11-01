@@ -153,7 +153,8 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 140px var(--pad) 0; }
 .hero__inner { padding-bottom: 6vh; }
 .hero__lead { margin: 0; max-width: 22em; font-size: var(--fs-lead); line-height: 1.08; letter-spacing: -0.035em; font-weight: 400; }
-.hero__lead .dim { color: var(--muted); }
+/* 회색 세 줄과 소개 문장 사이 아주 살짝 띄움 */
+.hero__lead .dim { display: block; margin-bottom: 0.22em; color: var(--muted); }
 /* 각 칸 폭을 내용에 맞춰서 지정한 줄바꿈 그대로 보이게 */
 .hero__meta { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: 24px 32px; margin-top: 5vh; font-size: calc(13 * var(--u)); }
 .hero__meta p { margin: 4px 0 0; }
@@ -270,7 +271,7 @@ p, li, .row .t, .row .c, .tile__cap span { text-wrap: pretty; }
 .method__steps h4 { margin: 10px 0 8px; font-size: calc(22 * var(--u)); font-weight: 400; letter-spacing: -0.02em; }
 .method__steps p { margin: 0; font-size: calc(14 * var(--u)); line-height: 1.55; color: var(--muted); }
 .method__outro { grid-column: 2; margin: 2vh 0 0; font-size: calc(18 * var(--u)); letter-spacing: -0.01em; }
-.about__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 14vh; font-size: calc(14 * var(--u)); }
+.about__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 14vh; font-size: calc(14 * var(--u)); word-break: keep-all; }
 .about__cols h3 { margin: 0 0 12px; font-size: calc(13 * var(--u)); font-weight: 400; color: var(--muted); }
 .about__cols ul { list-style: none; margin: 0 0 20px; padding: 0; }
 .about__cols li { padding: 2px 0; }

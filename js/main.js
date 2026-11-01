@@ -147,7 +147,7 @@
     $("#app").innerHTML = `
       <section class="hero" id="top">
         <div class="hero__inner">
-          <h1 class="hero__lead" data-split="intro"><span class="dim">${[].concat(S.hero.lead).map(esc).join("<br>")}</span><br>${lines(S.hero.sub)}</h1>
+          <h1 class="hero__lead" data-split="intro"><span class="dim">${[].concat(S.hero.lead).map(esc).join("<br>")}</span>${lines(S.hero.sub)}</h1>
           <div class="hero__meta" data-intro>
             <div><span class="label">Worked with</span><p>Beauty of Joseon<br><span class="nb">LIONAT (for Yeonkoung Kim 김연경)</span></p></div>
             <div><span class="label">Services</span><p><span class="nb">Brand eXperience, Creative &amp; Art Direction,</span><br>Strategy</p></div>
@@ -213,12 +213,6 @@
           <div><h3>Services</h3>${S.services.map(([g, l]) => `<ul><li>${g}</li>${l.map((x) => `<li class="label" style="font-size:14px">${esc(x)}</li>`).join("")}</ul>`).join("")}</div>
           <div><h3>Selected clients</h3><ul>${S.clients.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></div>
           <div><h3>Featured</h3><ul>${S.features.map(([n, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${esc(n)} ↗</a></li>`).join("")}</ul></div>
-          <div><h3>Experience</h3><ul>
-            <li>Treeside Inc.<br><span class="label" style="font-size:14px">Designer, 2025</span></li>
-            <li class="sub">Just Music · Indigo Music<br>A&amp;R, 2022</li>
-            <li class="sub">Mine Field Entertainment<br>A&amp;R, 2022</li>
-            <li class="sub">Vision Agency by Visla<br>Team member, 2022</li>
-          </ul></div>
         </div>
       </section>`;
   }
