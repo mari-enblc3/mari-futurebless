@@ -8,7 +8,7 @@ window.SITE = {
   // 푸터 명함(스페셜리티즈 펄 118): 앞면(스튜디오 정보) / 뒷면(이름·연락처)
   bizcard: {
     front: ["Branding&Consulting Studio Future Bless®", "based in Seoul", "info@futurebless.org", "futurebless.org/ @futurebless.studio"],
-    name: "Jeong A Mari Lee", role: "Creative Director", phone: "+82 10 8694 1231",
+    name: "Jeong A Mari Lee", role: "Creative Director", phone: "+82 10",
   },
   instagram: [
     ["@enblc3", "https://www.instagram.com/enblc3/"],
