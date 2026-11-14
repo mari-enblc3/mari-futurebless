@@ -71,7 +71,7 @@ window.SITE = {
     {
       slug: "treed-2-0", title: "Treed 2.0", client: "Treeside Inc.", year: "2026",
       tags: ["Brand eXperience", "Digital Content"],
-      cover: ["C3775832952992669768156170068536", "treed-2.0-thumb.jpg", 2000, 1125], mcover: ["M3256637821505092648972091170048", "treed-2.0-thumb-mobile.jpg", 894, 1117],
+      cover: ["C3775832952992669768156170068536", "treed-2.0-thumb.jpg", 2000, 1125], mcover: ["M2704321611099719920286817803363", "treed-2.0-thumb-mobile-2.jpg", 1600, 2000],
     },
     {
       slug: "dr-shy", title: "Dr. Shy", client: "Treeside Inc.", year: "2025",
